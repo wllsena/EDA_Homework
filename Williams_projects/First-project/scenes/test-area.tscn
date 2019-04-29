@@ -7,4 +7,3 @@
 [node name="tank" parent="." instance=ExtResource( 1 )]
 position = Vector2( 593.752, 252.148 )
 scale = Vector2( 2, 2 )
-

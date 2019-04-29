@@ -1,6 +1,6 @@
 extends Area2D
 
-var vel  = 1000
+var vel  = 500
 var dir  = Vector2(0, -1)
 
 func _ready():

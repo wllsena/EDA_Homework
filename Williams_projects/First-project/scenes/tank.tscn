@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=2]
 
-[ext_resource path="res://scenes/script-tank.gd" type="Script" id=1]
+[ext_resource path="res://scenes/scripts/tank.gd" type="Script" id=1]
 [ext_resource path="res://sprites/tankBody_dark_outline.png" type="Texture" id=2]
 [ext_resource path="res://sprites/tankDark_barrel2_outline.png" type="Texture" id=3]
 
@@ -16,12 +16,12 @@ polygon = PoolVector2Array( 20.9531, -19.9296, 21.1763, 19.1319, -20.3405, 19.13
 texture = ExtResource( 2 )
 
 [node name="Berrel" type="Node2D" parent="."]
+editor/display_folded = true
 
-[node name="tankDark_barrel2_outline" type="Sprite" parent="Berrel"]
+[node name="sprite" type="Sprite" parent="Berrel"]
 position = Vector2( 0.37426, 0.180901 )
 texture = ExtResource( 3 )
 offset = Vector2( -0.0796127, -9.18028 )
 
 [node name="lugar" type="Position2D" parent="Berrel"]
 position = Vector2( 0.175059, -31.9485 )
-

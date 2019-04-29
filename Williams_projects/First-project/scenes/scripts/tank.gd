@@ -1,7 +1,8 @@
 extends KinematicBody2D
 
-var speed = 10
-var aceler = Vector2(0, 0)
+var speed = 25
+var brake = 0.95
+var acceleration = Vector2(0, 0)
 var pre_bulllet = preload("res://scenes/bullet.tscn")
 
 func _ready():
@@ -9,20 +10,20 @@ func _ready():
 
 func _process(delta):
 	
-	var vec  = Vector2(0,0)
+	var vector  = Vector2(0,0)
 	
 	if Input.is_action_pressed("ui_right"):
-		vec += Vector2(1,0)
+		vector += Vector2(1,0)
 	if Input.is_action_pressed("ui_left"):
-		vec -= Vector2(1,0)
+		vector -= Vector2(1,0)
 	if Input.is_action_pressed("ui_up"):
-		vec -= Vector2(0,1)
+		vector -= Vector2(0,1)
 	if Input.is_action_pressed("ui_down"):
-		vec += Vector2(0,1)
+		vector += Vector2(0,1)
 		
-	aceler = 0.99*(aceler+vec*delta)
-	translate(aceler*speed)
-	rotation = -aceler.angle_to(Vector2(0,-1))
+	acceleration = brake*(acceleration+vector*delta)
+	translate(acceleration*speed)
+	#rotation = -acceleration.angle_to(Vector2(0,-1))
 		
 	if Input.is_action_just_pressed("ui_shot"):
 		print("booom")
