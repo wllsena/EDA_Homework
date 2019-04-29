@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://scenes/scripts/barret.gd" type="Script" id=1]
+[ext_resource path="res://sprites/tankDark_barrel2_outline.png" type="Texture" id=2]
+
+[node name="barret" type="Area2D"]
+script = ExtResource( 1 )
+
+[node name="collision" type="CollisionPolygon2D" parent="."]
+polygon = PoolVector2Array( -5.24182, -5.27391, -5.24182, 5.94756, 4.83459, 5.71856, 7.12469, 3.65747, 23.6134, 3.65747, 23.6134, -3.44183, 6.89569, -3.44183, 4.83459, -5.50292 )
+
+[node name="sprite" type="Sprite" parent="."]
+rotation = 1.5708
+texture = ExtResource( 2 )
+offset = Vector2( -0.204315, -9.19378 )
+
+[node name="position" type="Position2D" parent="."]
+position = Vector2( 34.4655, 0.0263534 )
+rotation = 1.5708
