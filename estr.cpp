@@ -4,47 +4,71 @@
 using namespace std;
 
 struct trie {
-  trie *children[4];
+  trie *children[26];
   vector<int> links;
-
-  trie(vector<int> nums): links(nums) {};
 };
 
+trie* init_trie () {
+  trie *tree = new trie();
+  for (int i = 0; i < 26; i++) {
+    tree->children[i] = NULL;
+  };
+  return tree;
+};
 
-void put_word(trie words, string word) {
+void put_word (trie *tree, string word, int index) {
+  trie *branch = tree;
   int i = 0;
-  
   while (true) {
-    //if (word[i] != '\0') {
-    //pBranch->indexes = indexes;
-    //return;
-    //};
-    //if (pBranch->children[int(word[i]-96)])
-       //  pBranch = &(pBranch->children[int(word[i]-96)]);
-    i ++;
-  }
+    if (word[i] == '\0') {
+      branch->links.push_back(index);
+      return;
+    };
+    if (branch->children[int(word[i])-97]) {
+     branch = branch->children[int(word[i])-97];
+     i++;
+    } else {
+      trie *news = init_trie();
+      branch->children[int(word[i])-97] = news;
+    };
+  };
 };
+
+void print(vector<int> vec) {
+  for (vector<int>::const_iterator i = vec.begin(); i != vec.end(); ++i)
+    cout << *i << ' ';
+  cout << "\n";
+};
+
+void search(trie *tree, string word) {
+  trie *branch = tree;
+  int i = 0;
+  while (true) {
+    if (word[i] == '\0') {
+      cout << "links :)\n";
+      print(branch->links);
+      return;
+    };
+    if (branch->children[int(word[i])-97]) {
+      branch = branch->children[int(word[i])-97];
+      i++;
+    } else {
+      cout << "no links :(\n";
+      return;
+    };
+  };
+};
+
 
 int main() {
-  vector<int> vec1, vec2;
-  vec1.push_back(1);
-  vec1.push_back(2);
-  vec1.push_back(3);
+  trie *a = init_trie();
+  put_word(a, "ab", 1);
+  put_word(a, "fuck", 2);
+  put_word(a, "oie", 3);
 
-  trie *a = new trie(vec1);
-  trie *b = new trie(vec1);
-  trie *c = new trie(vec2);
-
-  a->children[0] = NULL;
-  a->children[2] = NULL;
-  a->children[3] = NULL;
-  a->children[1] = b;
-  c->children[0] = a;
-
-  for (int i = 0; i < 4; i++) {
-    if ((c->children[0])->children[i])
-      cout << i << "\n";
-    else
-      cout << "--" << i << "\n";
-	}
-}
+  string word;
+  while (true) {
+    cin >> word;
+    search(a, word);
+  };
+};
