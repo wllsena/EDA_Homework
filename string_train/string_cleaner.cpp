@@ -9,7 +9,7 @@ using namespace std;
 
 //COISAS DO WILLIAM
 struct trie {
-  trie *children[26];
+  trie *children[74];
   vector<int> indexes;
 };
 
@@ -30,7 +30,7 @@ void search(trie *tree, string word) {
       print(branch->indexes);
       return;
     };
-    branch = branch->children[int(word[i])-97];
+    branch = branch->children[int(word[i])-48];
     if (branch)
       i++;
     else {
@@ -43,7 +43,7 @@ void search(trie *tree, string word) {
 
 trie* initialize_trie () {
   trie *tree = new trie();
-  for (int i = 0; i < 26; i++) {
+  for (int i = 0; i < 74; i++) {
     tree->children[i] = NULL;
   };
   return tree;
@@ -55,14 +55,15 @@ void put_word (trie *tree, string word, int index) {
   int i = 0;
   while (true) {
     if (word[i] == '\0') {
-      branch->indexes.push_back(index);
+      if (find(branch->indexes.begin(), branch->indexes.end(), index) == branch->indexes.end())
+        branch->indexes.push_back(index);
       return;
     };
-    if (branch->children[int(word[i])-97]) {
-     branch = branch->children[int(word[i])-97];
+    if (branch->children[int(word[i])-48]) {
+     branch = branch->children[int(word[i])-48];
      i++;
     } else {
-      branch->children[int(word[i])-97] = initialize_trie();
+      branch->children[int(word[i])-48] = initialize_trie();
     };
   };
 };
@@ -77,15 +78,16 @@ trie *tree = initialize_trie();
 
 void convert(string &s){
     //Essa funcao converte todo o texto em minusculo, tira a pontuacao e divide palavras por '*'
+    string dicionario = "AAAAAAECEEEEIIIIDNOOOOOx0UUUUYPsaaaaaaeceeeeiiiiOnooooo/0uuuuypy"; //todas os caracteres acentuados, so que desacentuados
 
     s.push_back(' '); //acrescentando um espaco no final do texto
     for (int i = 0; i < s.length(); i++){
-        if (s[i]=='-'){//no caso de ser um hifen, nao faca nada
+        if (int(s[i]) < 0) s[i] = dicionario[int(s[i]) + 64]; //se tiver acento, tira o acento
 
-        }else if (ispunct(s[i])){ //se for pontuacao, apaga
+        if (s[i] == '-' || int(s[i]) == 39){
             s.erase(i,1);
             i-=1;
-        }else if(s[i]==' '){ //se for espaco substitui por '*'
+        }else if (ispunct(s[i]) || (s[i]==' ') ){ //se for pontuacao ou espaco substitui por '*'
             s[i] = '*';
         }else{ //c.c. so deixa minusculo
             s[i] = tolower(s[i]);
@@ -120,7 +122,8 @@ void read_and_insert(){
     size_t inicio_do_titulo, fim_do_titulo;
 
     if (File.is_open()){
-        while (getline(File,line)){
+        while (Titulos.size() < 26){
+            getline(File,line);
             if (line == "ENDOFARTICLE."){
                 i=-1;
             }else{
@@ -134,11 +137,12 @@ void read_and_insert(){
                         Titulos.push_back(titulo);
                     }
                 }else{
-                    convert(line);
-                    Palavras_da_linha = word_breaker(line);
-                    for (vector<string>::iterator it = Palavras_da_linha.begin(); it != Palavras_da_linha.end(); it++){
-                        put_word(tree, *it, Titulos.size());
-                    }
+                        convert(line);
+                        Palavras_da_linha = word_breaker(line);
+                        for (vector<string>::iterator it = Palavras_da_linha.begin(); it != Palavras_da_linha.end(); it++){
+                            if (*it!="") put_word(tree, *it, Titulos.size());
+                        }
+
                 }
             }
         }
@@ -155,12 +159,13 @@ int main()
     cout << txt << endl;
     for (vector<string>::iterator it = Titulos.begin(); it != Titulos.end(); it++){
         cout << *it << endl;
-    } */
+    }*/
     read_and_insert();
     string word;
     while (true) {
         cin >> word;
         search(tree, word);
-  }
+  };
+
     return 0;
 }

@@ -65,7 +65,7 @@ void put_word (trie *tree, string word, int index) {
 
 int main() {
   trie *tree = initialize_trie();
-  put_word(tree, "abc", 1);
+  put_word(tree, "123", 1);
   put_word(tree, "abd", 2);
   put_word(tree, "abe", 3);
 
