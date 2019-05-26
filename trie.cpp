@@ -25,16 +25,6 @@ vector<int> search(trie *tree, string word) {
   };
 };
 
-
-trie* initialize_trie () {
-  trie *tree = new trie();
-  for (int i = 0; i < 74; i++) {
-    tree->children[i] = NULL;
-  };
-  return tree;
-};
-
-
 void put_word (trie *tree, string word, int index) {
   trie *branch = tree;
   int i = 0;
@@ -48,7 +38,7 @@ void put_word (trie *tree, string word, int index) {
       branch = branch->children[int(word[i])-48];
       i++;
     } else {
-      branch->children[int(word[i])-48] = initialize_trie();
+      branch->children[int(word[i])-48] = new trie();
     };
   };
 };

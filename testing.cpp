@@ -13,10 +13,10 @@ void print_vector(vector<int> vec) {
 
 
 int main() {
-  trie *tree = initialize_trie();
+  trie *tree = new trie();
   vector<string> titles;
   read_and_insert(tree, titles);
-
+  //
   string word;
   vector<int> indexes;
   auto start = chrono::high_resolution_clock::now();
@@ -34,7 +34,6 @@ int main() {
 
     cout << "... Elapsed time: " << elapsed.count() << " seconds or " << 1000*elapsed.count() << " milliseconds or " << 1000000*elapsed.count() << " microseconds\nIndex: ";
     print_vector(indexes);
-
   };
   return 0;
 };
