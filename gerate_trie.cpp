@@ -2,78 +2,9 @@
 #include <string>
 #include <vector>
 #include <fstream>
+#include "trie.cpp"
 
 using namespace std;
-
-
-
-//COISAS DO WILLIAM
-struct trie {
-  trie *children[74];
-  vector<int> indexes;
-};
-
-
-void print(vector<int> vec) {
-  for (vector<int>::const_iterator i = vec.begin(); i != vec.end(); ++i)
-    cout << *i << ' ';
-  cout << "\n";
-};
-
-
-void search(trie *tree, string word) {
-  trie *branch = tree;
-  int i = 0;
-  while (true) {
-    if (word[i] == '\0') {
-      cout << "links :)\n";
-      print(branch->indexes);
-      return;
-    };
-    branch = branch->children[int(word[i])-48];
-    if (branch)
-      i++;
-    else {
-      cout << "no links :(\n";
-      return;
-    };
-  };
-};
-
-
-trie* initialize_trie () {
-  trie *tree = new trie();
-  for (int i = 0; i < 74; i++) {
-    tree->children[i] = NULL;
-  };
-  return tree;
-};
-
-
-void put_word (trie *tree, string word, int index) {
-  trie *branch = tree;
-  int i = 0;
-  while (true) {
-    if (word[i] == '\0') {
-      if (find(branch->indexes.begin(), branch->indexes.end(), index) == branch->indexes.end())
-        branch->indexes.push_back(index);
-      return;
-    };
-    if (branch->children[int(word[i])-48]) {
-     branch = branch->children[int(word[i])-48];
-     i++;
-    } else {
-      branch->children[int(word[i])-48] = initialize_trie();
-    };
-  };
-};
-//ACABARAM AS COISAS DO WILLIAM
-
-
-
-//Declarando variaveis globais
-vector <string> Titulos;
-trie *tree = initialize_trie();
 
 
 void convert(string &s){
@@ -96,13 +27,12 @@ void convert(string &s){
 }
 
 
-
 vector <string> word_breaker(string &s){
     //Essa funcao pega o resultado da funcao 'convert' e retorna um vetor com todas as palavras
     //do texto
     vector <string> Palavras;
     string palavra;
-    for (int i=0; i< s.length(); i++){
+    for (int i=0; i < s.length(); i++){
         if (s[i]=='*'){//se chegou no fim da palavra, adicione-a ao vetor e deleta o conteudo atual
             Palavras.push_back(palavra);
             palavra.erase(0);
@@ -114,7 +44,7 @@ vector <string> word_breaker(string &s){
 }
 
 
-void read_and_insert(){
+void read_and_insert (trie *tree, vector<string> &Titulos){
     ifstream File ("pagina (1)");
     vector <string> Palavras_da_linha;
     string titulo,line;
@@ -122,7 +52,7 @@ void read_and_insert(){
     size_t inicio_do_titulo, fim_do_titulo;
 
     if (File.is_open()){
-        while (Titulos.size() < 41){
+        while (Titulos.size() < 21){
             getline(File,line);
             if (line == "ENDOFARTICLE."){
                 i=-1;
@@ -140,7 +70,8 @@ void read_and_insert(){
                         convert(line);
                         Palavras_da_linha = word_breaker(line);
                         for (vector<string>::iterator it = Palavras_da_linha.begin(); it != Palavras_da_linha.end(); it++){
-                            if (*it!="") put_word(tree, *it, Titulos.size());
+                            if (*it!="")
+                              put_word(tree, *it, Titulos.size());
                         }
 
                 }
@@ -148,24 +79,4 @@ void read_and_insert(){
         }
         File.close();
     }
-}
-
-
-
-int main()
-{
-    /*string txt("Riot Games, Inc. is an American video game developer and esports tournament organizer based in West Los Angeles, California. The company was founded in August 2006 by University of Southern California roommates Brandon Beck and Marc Merrill, as they sought to create a company that continuously improves on an already released game, instead of commencing development on a new one. Riot Games was majority-acquired by Tencent in February 2011 and fully acquired in December 2015. As of May 2018, Riot Games operates 24 offices around the world, in which it employs 2,500 staff members.");
-    convert(txt);
-    cout << txt << endl;
-    for (vector<string>::iterator it = Titulos.begin(); it != Titulos.end(); it++){
-        cout << *it << endl;
-    }*/
-    read_and_insert();
-    string word;
-    while (true) {
-        cin >> word;
-        search(tree, word);
-  };
-
-    return 0;
 }
