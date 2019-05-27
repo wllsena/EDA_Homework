@@ -4,7 +4,7 @@
 using namespace std;
 
 struct trie {
-  trie *children[74];
+  trie *children[36];
   vector<int> indexes;
 };
 
@@ -12,7 +12,7 @@ trie *branch;
 int post;
 int num;
 
-vector<int> search(trie *tree, string word) {
+vector<int> search(trie *tree, string &word) {
   branch = tree;
   post = 0;
   while (true) {

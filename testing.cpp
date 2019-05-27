@@ -19,13 +19,15 @@ int main() {
 
   string word;
   vector<int> indexes;
+  string snull = "snull";
   auto start = chrono::high_resolution_clock::now();
   auto finish = chrono::high_resolution_clock::now();
   chrono::duration<double> elapsed;
 
   while (true) {
+    cout << "Word: ";
     cin >> word;
-    search(tree, "0");
+    search(tree, snull);
 
     start = chrono::high_resolution_clock::now();
     indexes = search(tree, word);
