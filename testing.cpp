@@ -5,9 +5,11 @@
 
 using namespace std;
 
-void print_vector(vector<int> vec) {
-  for (vector<int>::const_iterator i = vec.begin(); i != vec.end(); ++i)
-    cout << *i << ' ';
+void print_vector(vector<int> *vec) {
+  if (vec) {
+    for (vector<int>::const_iterator i = vec->begin(); i != vec->end(); ++i)
+      cout << *i << ' ';
+  };
   cout << endl;
 };
 
@@ -18,7 +20,7 @@ int main() {
   read_and_insert(tree, titles);
 
   string word;
-  vector<int> indexes;
+  vector<int> *indexes = new vector<int>;
   string snull = "snull";
   auto start = chrono::high_resolution_clock::now();
   auto finish = chrono::high_resolution_clock::now();

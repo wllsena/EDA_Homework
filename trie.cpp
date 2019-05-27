@@ -5,38 +5,33 @@ using namespace std;
 
 struct trie {
   trie *children[36];
-  vector<int> indexes;
+  vector<int> *indexes = NULL;
 };
 
 trie *branch;
 int post;
 int num;
 
-vector<int> search(trie *tree, string &word) {
+vector<int> *search(trie *tree, string &word) {
   branch = tree;
-  post = 0;
-  while (true) {
-    if (word[post] == '\0')
-      return branch->indexes;
-    else {
-      num = int(word[post]);
-      branch = branch->children[num - (num > 57 ? 87 : 48)];
-      if (branch)
-        post++;
-      else
-        return vector<int> ();
-    };
+  for (post = 0; word[post] != '\0'; post++) {
+    num = int(word[post]);
+    branch = branch->children[num - (num > 57 ? 87 : 48)];
+    if (!branch)
+      return NULL;
   };
+  return branch->indexes;
 };
-
 
 void put_word (trie *tree, string word, int index) {
   trie *branch = tree;
   int i = 0;
   while (true) {
     if (word[i] == '\0') {
-      if (find(branch->indexes.begin(), branch->indexes.end(), index) == branch->indexes.end())
-        branch->indexes.push_back(index);
+      if (!branch->indexes)
+        branch->indexes = new vector<int>;
+      if (find(branch->indexes->begin(), branch->indexes->end(), index) == branch->indexes->end())
+        branch->indexes->push_back(index);
       return;
     };
     num = int(word[i]) - (int(word[i]) > 57 ? 87 : 48);
