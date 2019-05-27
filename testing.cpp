@@ -16,7 +16,7 @@ int main() {
   trie *tree = new trie();
   vector<string> titles;
   read_and_insert(tree, titles);
-  //
+
   string word;
   vector<int> indexes;
   auto start = chrono::high_resolution_clock::now();

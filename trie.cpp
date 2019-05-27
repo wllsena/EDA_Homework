@@ -8,22 +8,27 @@ struct trie {
   vector<int> indexes;
 };
 
+trie *branch;
+int post;
+int num;
 
 vector<int> search(trie *tree, string word) {
-  trie *branch = tree;
-  int i = 0;
+  branch = tree;
+  post = 0;
   while (true) {
-    if (word[i] == '\0')
+    if (word[post] == '\0')
       return branch->indexes;
     else {
-      branch = branch->children[int(word[i])-48];
+      num = int(word[post]);
+      branch = branch->children[num - (num > 57 ? 87 : 48)];
       if (branch)
-        i++;
+        post++;
       else
         return vector<int> ();
     };
   };
 };
+
 
 void put_word (trie *tree, string word, int index) {
   trie *branch = tree;
@@ -34,11 +39,12 @@ void put_word (trie *tree, string word, int index) {
         branch->indexes.push_back(index);
       return;
     };
-    if (branch->children[int(word[i])-48]) {
-      branch = branch->children[int(word[i])-48];
+    num = int(word[i]) - (int(word[i]) > 57 ? 87 : 48);
+    if (branch->children[num]) {
+      branch = branch->children[num];
       i++;
     } else {
-      branch->children[int(word[i])-48] = new trie();
+      branch->children[num] = new trie();
     };
   };
 };

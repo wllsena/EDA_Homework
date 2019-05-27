@@ -52,7 +52,7 @@ void read_and_insert (trie *tree, vector<string> &Titulos){
   size_t inicio_do_titulo, fim_do_titulo;
 
   if (File.is_open()){
-    while (Titulos.size() < 41){
+    while (Titulos.size() < 51){
       getline(File,line);
       if (line == "ENDOFARTICLE."){
         i=-1;
