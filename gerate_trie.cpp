@@ -29,18 +29,18 @@ void convert(string& s) {
 }
 
 
-vector <string> word_breaker(string& s) {
+vector < vector <int> > word_breaker(string& s) {
 	//Essa funcao pega o resultado da funcao 'convert' e retorna um vetor com todas as palavras
 	//do texto
-	vector <string> Palavras;
-	string palavra;
+	vector < vector <int> > Palavras;
+	vector <int> palavra;
 	for (int i = 0; i < s.length(); i++) {
-		if (s[i] == '*') {//se chegou no fim da palavra, adicione-a ao vetor e deleta o conteudo atual
+		if (s[i] == '*') {//se chegou no fim da palavra, adicione-a ao vetor e delete o conteudo atual
 			Palavras.push_back(palavra);
-			palavra.erase(0);
+			palavra.clear();
 		}
 		else {
-			palavra.push_back(s[i]);//c.c. adicione outra letra na palavra
+			palavra.push_back(int(s[i]) - (int(s[i]) > 57 ? 87 : 48));//c.c. adicione o codigo de outra letra na palavra
 		}
 	}
 	return Palavras;
@@ -48,39 +48,40 @@ vector <string> word_breaker(string& s) {
 
 
 void read_and_insert(trie* tree, vector<string>& Titulos) {
-	ifstream File("wikiCorpus (1)");
-	vector <string> Palavras_da_linha;
+	vector < vector <int> > Palavras_da_linha;
 	string titulo, line;
 	int i = 0;
 	size_t inicio_do_titulo, fim_do_titulo;
-
-	if (File.is_open()) {
-		while (getline(File, line)) {
-			if (line == "ENDOFARTICLE.") {
-				i = -1;
-			}
-			else {
-				i++;
-				if (i < 2) {
-					inicio_do_titulo = line.find("title");
-					if (inicio_do_titulo != string::npos) {
-						inicio_do_titulo += 7;
-						fim_do_titulo = line.find(" non");
-						titulo = line.substr(inicio_do_titulo, fim_do_titulo - inicio_do_titulo - 1);
-						Titulos.push_back(titulo);
-					}
+	for (int page_index = 1; page_index < 11; page_index++) {
+		ifstream File("wikiCorpus (" + to_string(page_index) + ")");
+		if (File.is_open()) {
+			while (getline(File, line)) {
+				if (line == "ENDOFARTICLE.") {
+					i = -1;
 				}
 				else {
-					convert(line);
-					Palavras_da_linha = word_breaker(line);
-					for (vector<string>::iterator it = Palavras_da_linha.begin(); it != Palavras_da_linha.end(); it++) {
-						if (*it != "") {
-							put_word(tree, *it, Titulos.size());
+					i++;
+					if (i < 2) {
+						inicio_do_titulo = line.find("title");
+						if (inicio_do_titulo != string::npos) {
+							inicio_do_titulo += 7;
+							fim_do_titulo = line.find(" non");
+							titulo = line.substr(inicio_do_titulo, fim_do_titulo - inicio_do_titulo - 1);
+							Titulos.push_back(titulo);
+						}
+					}
+					else {
+						convert(line);
+						Palavras_da_linha = word_breaker(line);
+						for (vector < vector <int> >::iterator it = Palavras_da_linha.begin(); it != Palavras_da_linha.end(); it++) {
+							if (!it->empty()) {
+								put_word(tree, *it, Titulos.size());
+							}
 						}
 					}
 				}
 			}
+			File.close();
 		}
-		File.close();
 	}
 }

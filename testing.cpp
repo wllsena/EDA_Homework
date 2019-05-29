@@ -5,11 +5,11 @@
 
 using namespace std;
 
-void print_titles(vector<int> *indexes, vector<string> titles) {
+void print_titles(set<int> *indexes, vector<string> titles) {
   if (indexes) {
     char answer;
     int k = 0;
-    for (vector<int>::const_iterator index = indexes->begin(); index != indexes->end() and answer != 'n'; ++index, k++) {
+    for (set<int>::const_iterator index = indexes->begin(); index != indexes->end() and answer != 'n'; ++index, k++) {
       cout << "[" << k+1 << "] " << titles[*index] << endl;
       if (k % 20 == 19) {
         cout << "More results? (y, n): ";
@@ -30,7 +30,7 @@ int main() {
 
   string word = "snull";
   string snull = "snull";
-  vector<string> strings;
+  vector<vector<int> > strings;
 
   auto start = chrono::high_resolution_clock::now();
   auto finish = chrono::high_resolution_clock::now();
@@ -44,21 +44,20 @@ int main() {
     if (word == "!q") return 0;
 
     if (word.length() > 0) {
-      vector<vector<int>*> *indexes = new vector<vector<int>*>;
+      set<int> *indexes = new set<int> ();
 
       convert(word);
       strings = word_breaker(word);
-      search(tree, snull);
+      //search(tree, snull);
 
       start = chrono::high_resolution_clock::now();
-      for (int i = 0; i < strings.size(); i++)
-        indexes->push_back(search(tree, strings[i]));
+      //for (int i = 0; i < strings.size(); i++)
+      indexes = search(tree, strings[0]);
       finish = chrono::high_resolution_clock::now();
       elapsed = finish - start;
 
-      cout << "About " << (*indexes)[0]->size() << " results (" << 1000000*elapsed.count() << " microseconds)\n";
-
-      print_titles((*indexes)[0], titles);
+      cout << "About " << indexes->size() << " results (" << 1000000*elapsed.count() << " microseconds)\n";
+      print_titles(indexes, titles);
     };
   };
 };
