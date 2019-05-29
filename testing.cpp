@@ -2,14 +2,15 @@
 #include <vector>
 #include <chrono>
 #include "gerate_trie.cpp"
+#include "word_suggestor.cpp"
 
 using namespace std;
 
 void print_titles(set<int> *indexes, vector<string> titles) {
   if (indexes) {
-    char answer;
     int k = 0;
-    for (set<int>::const_iterator index = indexes->begin(); index != indexes->end() and answer != 'n'; ++index, k++) {
+	char answer = '0';
+    for (set<int>::const_iterator index = indexes->begin(); index != indexes->end() and answer != 'n' ; ++index, k++) {
       cout << "[" << k+1 << "] " << titles[*index] << endl;
       if (k % 20 == 19) {
         cout << "More results? (y, n): ";
@@ -36,9 +37,10 @@ int main() {
   auto finish = chrono::high_resolution_clock::now();
   chrono::duration<double> elapsed;
 
+  cout << titles.size() << endl;
   while (true) {
     if (word.length() > 0)
-      cout << "\"!q\" if you want to quit or type a word to do a search: ";
+      cout << "Type a word to perform a search or \"!q\" if you want to quit: ";
 
     getline(cin, word);
     if (word == "!q") return 0;
