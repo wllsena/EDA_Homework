@@ -1,64 +1,72 @@
-#include <iostream>
-#include <vector>
 #include <chrono>
 #include "gerate_trie.cpp"
 
 using namespace std;
 
+auto start = chrono::high_resolution_clock::now();
+auto finish = chrono::high_resolution_clock::now();
+chrono::duration<double> elapsed;
+
 void print_titles(set<int> *indexes, vector<string> titles) {
   if (indexes) {
-    char answer;
+    string answer;
     int k = 0;
-    for (set<int>::const_iterator index = indexes->begin(); index != indexes->end() and answer != 'n'; ++index, k++) {
-      cout << "[" << k+1 << "] " << titles[*index] << endl;
+    for (set<int>::const_iterator index = indexes->begin(); index != indexes->end() and answer != "n"; ++index, k++) {
+      cout << "[" << k+1 << "] " << titles[*index] << *index << endl;
       if (k % 20 == 19) {
         cout << "More results? (y, n): ";
-        cin >> answer;
+        getline(cin >> ws, answer);
       };
     };
     cout << "Do you want to open any result [n or result number]? ";
+    getline(cin >> ws, answer);
     // TO-DO
-    cin >> answer;
   };
 };
 
+/*
+void intersection(vector<int> *indexes, vector<int> *vec) {
+  int post = 0;
+  vector<int>::const_iterator iter = indexes->begin();
+  while (iter != indexes->end()) {
+    if ((*vec)[post] > *iter) post++;
+    else {
+      indexes->insert(iter, (*vec)[post]);
+      ++(++iter);
+    };
+  };
+};
+*/
 
 int main() {
+  string word = "snull";
+  vector<vector<int> > strings; vector<string> titles; vector<int> snull;
+  int post; int size; set<int> *inter;
+  for (int i = 0; i < 36; i++) snull.push_back(i);
+
   trie *tree = new trie();
-  vector<string> titles;
   read_and_insert(tree, titles);
 
-  string word = "snull";
-  vector<int> snull;
-  for (int i = 0; i < 36; i++) snull.push_back(i);
-  vector<vector<int> > strings;
-
-  auto start = chrono::high_resolution_clock::now();
-  auto finish = chrono::high_resolution_clock::now();
-  chrono::duration<double> elapsed;
-
   while (true) {
-    if (word.length() > 0)
-      cout << "\"!q\" if you want to quit or type a word to do a search: ";
+    cout << "\"!q\" if you want to quit or type a word to do a search: ";
+    getline(cin >> ws, word);
 
-    getline(cin, word);
     if (word == "!q") return 0;
 
-    if (word.length() > 0) {
-      set<int> *indexes = new set<int> ();
+    convert(word);
+    strings = word_breaker(word);
+    vector<set<int>*> indexes;
+    size = strings.size();
+    indexes.reserve(size);
+    search(tree, snull);
 
-      convert(word);
-      strings = word_breaker(word);
-      search(tree, snull);
+    start = chrono::high_resolution_clock::now();
+    for (post = 0; post < size; post++)
+      indexes[post] = search(tree, strings[post]);
+    finish = chrono::high_resolution_clock::now();
+    elapsed = finish - start;
 
-      start = chrono::high_resolution_clock::now();
-      //for (int i = 0; i < strings.size(); i++)
-      indexes = search(tree, strings[0]);
-      finish = chrono::high_resolution_clock::now();
-      elapsed = finish - start;
-
-      cout << "About " << (indexes ? indexes->size() : 0) << " results (" << 1000000*elapsed.count() << " microseconds)\n";
-      print_titles(indexes, titles);
-    };
+    cout << "About " << (indexes[0] ? indexes[0]->size() : 0) << " results (" << 1000000*elapsed.count() << " microseconds)\n";
+    print_titles(indexes[0], titles);
   };
 };

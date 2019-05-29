@@ -12,7 +12,7 @@ struct trie {
 trie *branch;
 int post;
 
-set<int> *search(trie *tree, vector<int> &word) {
+set<int> *search(trie *tree, const vector<int> &word) {
   branch = tree;
   for (post = 0; post < word.size(); post++) {
     branch = branch->children[word[post]];
@@ -23,7 +23,7 @@ set<int> *search(trie *tree, vector<int> &word) {
 };
 
 
-void put_word (trie *tree, vector<int> &word, int index) {
+void put_word (trie *tree, const vector<int> &word, const int &index) {
   branch = tree;
   for (post = 0; branch and post < word.size(); post++) {
     if (!branch->children[word[post]])

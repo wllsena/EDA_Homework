@@ -10,7 +10,7 @@ using namespace std;
 void convert(string& s) {
 	//Essa funcao converte todo o texto em minusculo, tira a pontuacao e divide palavras por '*'
 	string dicionario = "AAAAAAECEEEEIIIIDNOOOOOx0UUUUYPsaaaaaaeceeeeiiiiOnooooo/0uuuuypy"; //todas os caracteres acentuados, so que desacentuados
-	int k;
+  int k;
 
 	s.push_back(' '); //acrescentando um espaco no final do texto
 	for (int i = 0; i < s.length(); i++) {
