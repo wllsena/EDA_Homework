@@ -1,5 +1,6 @@
 #include <chrono>
 #include "gerate_trie.cpp"
+#include "word_suggestor.cpp"
 
 using namespace std;
 
@@ -47,6 +48,7 @@ int main() {
   trie *tree = new trie();
   read_and_insert(tree, titles);
 
+  cout << titles.size() << endl;
   while (true) {
     cout << "\"!q\" if you want to quit or type a word to do a search: ";
     getline(cin >> ws, word);

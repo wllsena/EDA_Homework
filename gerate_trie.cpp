@@ -18,10 +18,11 @@ void convert(string& s) {
 			s[i] = dicionario[int(s[i]) + 64]; //se tiver acento, tira o acento
 		}
 		s[i] = tolower(s[i]);
+
 		if (int(s[i]) >= 0 && (ispunct(s[i]) || s[i] == ' ')) { //se for pontuacao ou espaco substitui por '*'
 			s[i] = '*';
 		}
-		else if (int(s[i]) < 48 || (int(s[i]) > 57 && int(s[i]) < 97) || (int(s[i]) > 122)) {//se for traco ou apostrofo, apaga
+		else if (int(s[i]) < 48 || (int(s[i]) > 57 && int(s[i]) < 97) || (int(s[i]) > 122)) {//se nao for um dos caracteres aceitos, apague
 			s.erase(i, 1);
 			i--;
 		}
@@ -52,7 +53,7 @@ void read_and_insert(trie* tree, vector<string>& Titulos) {
 	string titulo, line;
 	int i = 0;
 	size_t inicio_do_titulo, fim_do_titulo;
-	for (int page_index = 1; page_index < 11; page_index++) {
+	for (int page_index = 1; page_index < 3; page_index++) {
 		ifstream File("wikiCorpus (" + to_string(page_index) + ")");
 		if (File.is_open()) {
 			while (getline(File, line)) {
