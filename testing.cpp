@@ -30,7 +30,8 @@ int main() {
   read_and_insert(tree, titles);
 
   string word = "snull";
-  string snull = "snull";
+  vector<int> snull;
+  for (int i = 0; i < 36; i++) snull.push_back(i);
   vector<vector<int> > strings;
 
   auto start = chrono::high_resolution_clock::now();
@@ -50,7 +51,7 @@ int main() {
 
       convert(word);
       strings = word_breaker(word);
-      //search(tree, snull);
+      search(tree, snull);
 
       start = chrono::high_resolution_clock::now();
       //for (int i = 0; i < strings.size(); i++)
@@ -58,7 +59,7 @@ int main() {
       finish = chrono::high_resolution_clock::now();
       elapsed = finish - start;
 
-      cout << "About " << indexes->size() << " results (" << 1000000*elapsed.count() << " microseconds)\n";
+      cout << "About " << (indexes ? indexes->size() : 0) << " results (" << 1000000*elapsed.count() << " microseconds)\n";
       print_titles(indexes, titles);
     };
   };

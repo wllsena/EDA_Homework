@@ -11,35 +11,13 @@ struct trie {
 
 trie *branch;
 int post;
-int num;
-
-set<int> *search2(trie *tree, string &word) {
-  branch = tree;
-  for (post = 0; branch and word[post] != '\0'; post++) {
-    num = int(word[post]);
-    branch = branch->children[num - (num > 57 ? 87 : 48)];
-  };
-  return branch->indexes;
-};
-
-
-void put_word2 (trie *tree, string word, int index) {
-  branch = tree;
-  for (post = 0; word[post] != '\0'; post++) {
-    num = int(word[post]) - (int(word[post]) > 57 ? 87 : 48);
-    if (!branch->children[num])
-      branch->children[num] = new trie();
-    branch = branch->children[num];
-  };
-  if (!branch->indexes)
-    branch->indexes = new set<int> ();
-  branch->indexes->insert(index);
-};
 
 set<int> *search(trie *tree, vector<int> &word) {
   branch = tree;
-  for (post = 0; branch and post < word.size(); post++) {
+  for (post = 0; post < word.size(); post++) {
     branch = branch->children[word[post]];
+    if (!branch)
+      return NULL;
   };
   return branch->indexes;
 };
