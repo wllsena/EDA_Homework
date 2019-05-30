@@ -1,27 +1,25 @@
 #include <iostream>
 #include <vector>
-#include <set>
 
 using namespace std;
 
 struct trie {
   trie *children[36];
-  set<int> *indexes = NULL;
+  vector<int> *indexes = NULL;
 };
 
 trie *branch;
 int post;
 
-set<int> *search(trie *tree, const vector<int> &word) {
+vector<int> *search(trie *tree, const vector<int> &word) {
   branch = tree;
-  for (post = 0; post < word.size(); post++) {
+  for (post = 0; post != word.size(); post++) {
     branch = branch->children[word[post]];
     if (!branch)
       return NULL;
   };
   return branch->indexes;
 };
-
 
 void put_word (trie *tree, const vector<int> &word, const int &index) {
   branch = tree;
@@ -31,6 +29,7 @@ void put_word (trie *tree, const vector<int> &word, const int &index) {
     branch = branch->children[word[post]];
   };
   if (!branch->indexes)
-    branch->indexes = new set<int> ();
-  branch->indexes->insert(index);
+    branch->indexes = new vector<int> ();
+  if (find(branch->indexes->begin(), branch->indexes->end(), index) == branch->indexes->end())
+    branch->indexes->push_back(index);
 };
