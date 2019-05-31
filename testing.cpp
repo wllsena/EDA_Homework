@@ -1,23 +1,29 @@
 #include <chrono>
 #include "gerate_trie.cpp"
-//#include "word_suggestor.cpp"
+#include "word_suggestor.cpp"
+#include <math.h>
 
 using namespace std;
-
-vector<vector<int> > words; vector<string> titles; vector<int> wnull; int position; int size; int i; int k; string word; string answer;
+vector<vector<int> > words; vector<PTI> titles; vector<int> wnull; int position, williams_size, i, k, last_index; string word; string answer;
 auto inter = new vector<int> ();
 auto start = chrono::high_resolution_clock::now();
 auto finish = chrono::high_resolution_clock::now();
 chrono::duration<double> elapsed;
 
-void print_titles(const vector<int> *indexes, const vector<string> &titles) {
+void print_titles(const vector<int> *indexes, const vector<PTI> &titles) {
   if (indexes) {
     answer  = "";
     k = 0;
-    for (vector<int>::const_iterator index = indexes->begin(); index != indexes->end() and answer != "n"; k++) {
-      cout << "[" << k+1 << "] " << titles[*index] << endl;
+	last_index = indexes->back();
+	vector<PTI> searched_titles;
+	for (vector<int>::const_iterator it = indexes->begin(); it != indexes->end(); it++) {
+			searched_titles.push_back(titles[*it]);
+	}
+	quickSort(searched_titles, 0, searched_titles.size());
+    for (vector<PTI>::const_iterator index = searched_titles.begin(); index != searched_titles.end() and answer != "n"; k++) {
+      cout << "[" << k+1 << "] " << index->titulo << endl;
       ++index;
-      if (index != indexes->end() and k % 20 == 19) {
+      if (index != searched_titles.end() and k % 20 == 19) {
         cout << "More results? (y, n): ";
         getline(cin >> ws, answer);
       };
@@ -43,7 +49,6 @@ vector<int> *intersect(const vector<vector<int>*> &indexes, const int &size) {
   return inter;
 };
 
-
 int main() {
   for (i = 0; i < 36; i++) wnull.push_back(i);
 
@@ -60,18 +65,19 @@ int main() {
 
     convert(word);
     words = word_breaker(word);
-    size = words.size();
-    indexes.reserve(size);
+	williams_size = words.size();
+    indexes.reserve(williams_size);
     search(tree, wnull);
 
     start = chrono::high_resolution_clock::now();
-    for (position = 0; position < size; position++)
+    for (position = 0; position < williams_size; position++)
       indexes[position] = search(tree, words[position]);
     finish = chrono::high_resolution_clock::now();
     elapsed = finish - start;
 
-    inter = intersect(indexes, size);
+    inter = intersect(indexes, williams_size);
     cout << "About " << (inter ? inter->size() : 0) << " results (" << 1000000*elapsed.count() << " microseconds)\n";
     print_titles(inter, titles);
   };
+
 };

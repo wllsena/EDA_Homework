@@ -1,16 +1,67 @@
-#include <iostream>
 #include <string>
-#include <vector>
 #include <fstream>
 #include "trie.cpp"
+#include <algorithm>
 
 using namespace std;
 
+struct PTI {
+	string titulo;
+	int indice;
+};
+
+int compare_string(string p1, string p2) {
+	for (int i = 0; i < min(p1.size(), p2.size()); i++)
+	{
+		if (int(p1[i]) < int(p2[i]))
+		{
+			return true;
+		}
+		else if (int(p1[i]) > int(p2[i]))
+		{
+			return false;
+		}
+	}
+	return false;
+}
+
+void quickSort(vector<PTI>& vetor, int began, int end)
+{
+	int i, j;
+	PTI* aux = new PTI(), pivo = vetor[floor( (began + end)/2 )];
+	i = began;
+	j = end - 1;
+	while (i <= j)
+	{
+
+		while (compare_string(vetor[i].titulo, pivo.titulo) && i < end)
+		{
+			i++;
+		}
+
+		while (compare_string(pivo.titulo, vetor[j].titulo) && j > began)
+		{
+			j--;
+		}
+		if (i <= j)
+		{
+			*aux = vetor[i];
+			vetor[i] = vetor[j];
+			vetor[j] = *aux;
+			i++;
+			j--;
+		}
+	}
+	if (j > began)
+		quickSort(vetor, began, j + 1);
+	if (i < end)
+		quickSort(vetor, i, end);
+}
 
 void convert(string& s) {
 	//Essa funcao converte todo o texto em minusculo, tira a pontuacao e divide palavras por '*'
 	string dicionario = "AAAAAAECEEEEIIIIDNOOOOOx0UUUUYPsaaaaaaeceeeeiiiiOnooooo/0uuuuypy"; //todas os caracteres acentuados, so que desacentuados
-  int k;
+	int k;
 
 	s.push_back(' '); //acrescentando um espaco no final do texto
 	for (int i = 0; i < s.length(); i++) {
@@ -48,12 +99,12 @@ vector < vector <int> > word_breaker(string& s) {
 }
 
 
-void read_and_insert(trie* tree, vector<string>& Titulos) {
+void read_and_insert(trie* tree, vector<PTI>& Titulos) {
 	vector < vector <int> > Palavras_da_linha;
 	string titulo, line;
 	int i = 0;
 	size_t inicio_do_titulo, fim_do_titulo;
-	for (int page_index = 1; page_index < 3; page_index++) {
+	for (int page_index = 1; page_index < 6; page_index++) {
 		ifstream File("wikiCorpus (" + to_string(page_index) + ")");
 		if (File.is_open()) {
 			while (getline(File, line)) {
@@ -68,7 +119,11 @@ void read_and_insert(trie* tree, vector<string>& Titulos) {
 							inicio_do_titulo += 7;
 							fim_do_titulo = line.find(" non");
 							titulo = line.substr(inicio_do_titulo, fim_do_titulo - inicio_do_titulo - 1);
-							Titulos.push_back(titulo);
+							PTI*novo_titulo = new PTI();
+							novo_titulo->titulo = titulo;
+							novo_titulo->indice = Titulos.size() + 1;
+							Titulos.push_back(*novo_titulo);
+							delete novo_titulo;
 						}
 					}
 					else {
