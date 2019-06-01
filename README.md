@@ -1,3 +1,3 @@
 # EDA Homework
-g++ -o test -std=c++11 test.cpp -lboost_iostreams
+g++ -o testing -std=c++11 testing.cpp -lboost_iostreams
 
