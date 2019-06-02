@@ -1,6 +1,8 @@
 #include <iostream>
 #include <algorithm>
 #include <string>
+#include <unordered_set>
+#include "gerate_trie.cpp"
 
 using namespace std;
 
@@ -29,5 +31,135 @@ int min_edit_distance (string& p1, string& p2) {
 		}
 	}
 	//O minimum edit distance esta no ultimo elemento da diagonal
-	return table[m - 1][n - 1];
+	return table[m-1][n-1];
+}
+string alphabet = "abcdefghijklmnopqrstuvwxyz";
+
+void edits1(const string& error, unordered_set<string>& wordSet)
+{
+	wordSet.clear();
+	std::string word;
+	int len = error.size();
+	int len_alphabet = alphabet.size();
+	//deletes
+	for (int i = 0; i < len; ++i)
+	{
+		word = error;
+		word.erase(i, 1);
+		wordSet.insert(word);
+	}
+	//transposes
+	for (int i = 0; i < len - 1; ++i)
+	{
+		word = error;
+		std::swap(word[i], word[i+1]);
+		wordSet.insert(word);
+	}
+	//replaces
+	for (int i = 0; i < len; ++i)
+	{
+		for (int j = 0; j < len_alphabet; ++j)
+		{
+			word = error;
+			word[i] = alphabet[j];
+			wordSet.insert(word);
+		}
+	}
+	//inserts
+	for (int i = 0; i < len + 1; ++i)
+	{
+		for (int j = 0; j < len_alphabet; ++j)
+		{
+			word = error;
+			word.insert(i, 1, alphabet[j]);
+			wordSet.insert(word);
+		}
+	}
+}
+
+void edits2(const std::string& error, std::unordered_set<std::string>& words2)
+{
+	words2.clear();
+	std::unordered_set<std::string> words1;
+	edits1(error, words1);
+	std::unordered_set<std::string> tmp_words2;
+	for (const auto& word1 : words1)
+	{
+		edits1(word1, tmp_words2);
+		for (const auto& word : tmp_words2)
+		{
+			words2.insert(word);
+		}
+	}
+}
+
+string MostFrequent(trie* tree, std::unordered_set<std::string>& candidates)
+{
+	std::string answer;
+	size_t max_count = 0;
+	vector <int>* found;
+	for (auto word : candidates)
+	{
+		convert(word);
+		found = search(tree, word_breaker(word)[0]);
+		if (found != NULL && found->size() > max_count)
+		{
+			max_count = found->size();
+			word.pop_back();
+			answer = word;
+		}
+	}
+	return answer;
+}
+
+string correct(trie* tree, string error)
+{
+	string error1 = error;
+	convert(error1);
+	if (search(tree, word_breaker(error1)[0]))
+		return error;
+	std::unordered_set<std::string> candidates;
+	error1.pop_back();
+	edits1(error1, candidates);
+	string answer = MostFrequent(tree, candidates);
+	if (!answer.empty())
+		return answer;
+	edits2(error1, candidates);
+	answer = MostFrequent(tree, candidates);
+	if (!answer.empty())
+		return answer;
+	return error;
+}
+
+string suggestion(trie* tree,vector<string>& query) {
+	bool not_found = false;
+	string right_query;
+	for (int i = 0; i < query.size(); i++)
+	{
+		right_query = correct(tree, query[i]);
+		if (right_query != query[i]) {
+			not_found = true;
+			query[i] = right_query;
+		}
+	}
+	if (not_found)
+	{
+		string answer;
+		cout << "Did you mean \"";
+		for (auto word : query)
+		{
+			if (word != "*") cout << word << " ";
+		}
+
+		cout << "\" (y,n)?" << endl;
+		getline(cin >> ws, answer);
+		if (answer == "y") 
+		{
+			string word;
+			for (auto w : query) word.append(w);
+			return word;
+		}
+	}
+	else return "trabalhocustoso";
+	
 }
