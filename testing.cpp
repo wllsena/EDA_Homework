@@ -1,7 +1,5 @@
 ﻿#include <chrono>
 #include "word_suggestor.cpp"
-#include <boost/iostreams/device/mapped_file.hpp>
-#include <boost/iostreams/stream.hpp>
 
 using namespace std;
 bool no_suggestions = true;
@@ -52,71 +50,46 @@ vector<int>* intersect(const vector<vector<int>*> &indexes, const int &size) {
 
 
 int main() {
-	
-  for (i = 0; i < 36; i++) wnull.push_back(i);
+	for (i = 0; i < 36; i++) wnull.push_back(i);
 
-  trie *tree = new trie();
-  read_and_insert(tree, titles);
+	trie* tree = new trie();
+	read_and_insert(tree, titles);
 
-  cout << titles.size() << " titles\n";
-  while (true) {
-    vector<vector<int>*> indexes;
-	if (no_suggestions) 
-	{
-		cout << "Type a word to perform a search or \"!q\" if you want to quit: ";
-		getline(cin >> ws, word);
-	}
-    if (word == "!q") return 0;
-    convert(word);
-    words = word_breaker(word);
-	words_string_form = word_breaker2(word);
-	williams_size = words.size();
-    indexes.reserve(williams_size);
-    search(tree, wnull);
+	cout << titles.size() << " titles\n";
+	while (true) {
+		vector<vector<int>*> indexes;
+		if (no_suggestions)
+		{
+			cout << "Type a word to perform a search or \"!q\" if you want to quit: ";
+			getline(cin >> ws, word);
+		}
+		if (word == "!q") return 0;
+		convert(word);
+		words = word_breaker(word);
+		words_string_form = word_breaker2(word);
+		williams_size = words.size();
+		indexes.reserve(williams_size);
+		search(tree, wnull);
 
-    start = chrono::high_resolution_clock::now();
-    for (position = 0; position < williams_size; position++)
-      indexes[position] = search(tree, words[position]);
-    finish = chrono::high_resolution_clock::now();
-    elapsed = finish - start;
+		start = chrono::high_resolution_clock::now();
+		for (position = 0; position < williams_size; position++)
+			indexes[position] = search(tree, words[position]);
+		finish = chrono::high_resolution_clock::now();
+		elapsed = finish - start;
 
 
-    inter = intersect(indexes, williams_size);
-    cout << "About " << (inter ? inter->size() : 0) << " results (" << 1000000*elapsed.count() << " microseconds)\n";
-    print_titles(inter, titles);
-	no_suggestions = true;
+		inter = intersect(indexes, williams_size);
+		cout << "About " << (inter ? inter->size() : 0) << " results (" << 1000000 * elapsed.count() << " microseconds)\n";
+		print_titles(inter, titles);
+		no_suggestions = true;
 
-	suggest = suggestion(tree, words_string_form);
-	
-	if (suggest != "trabalhocustoso") 
-	{
-		word = suggest;
-		no_suggestions = false;
-	}
-  };
- /*
-	ofstream sorted_titles;
-	ofstream sorted_text;
-	string LINHA;
+		suggest = suggestion(tree, words_string_form);
 
-	set<vector<int>> dict;
-
-	organize_text(titles,dict);
-
-	sorted_titles.open("sorted_titles.txt");
-	sorted_text.open("sorted.text.txt");
-
-	for (int i = 0; i < titles.size(); i++) {
-		sorted_titles << titles[i]->titulo;
-		sorted_titles << "\n";
-		sorted_text << titles[i]->texto;
-		sorted_text << "\n";
-	}
-
-	sorted_titles.close();
-	sorted_text.close();
-	
-
-	cout << dict.size() << endl;*/
-	return(0);
-};
+		if (suggest != "trabalhocustoso")
+		{
+			word = suggest;
+			no_suggestions = false;
+		}
+		return 0;
+	};
+}

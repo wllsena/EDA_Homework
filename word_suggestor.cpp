@@ -2,7 +2,7 @@
 #include <algorithm>
 #include <string>
 #include <unordered_set>
-#include "gerate_trie.cpp"
+#include "trie.cpp"
 
 using namespace std;
 
