@@ -61,7 +61,7 @@ int search(trie *tree, const vector<int> &word) {
 };
 
 trie *load_trie (const disk_trie *disk_tree) {
-  trie *pointers[number_of_tries];
+  vector<trie *> pointers(number_of_tries);
   pointers[0] = new trie();
   for (position = 1; position < number_of_tries; position++) {
     pointers[position] = new trie();
