@@ -1,9 +1,5 @@
 ﻿#include <string>
-#include <fstream>
-#include <algorithm>
-#include <set>
 #include <vector>
-#include <math.h>
 
 using namespace std;
 
@@ -44,9 +40,9 @@ void convert(string& s) {
 			s[i] = dicionario[found];
 		}
 
-		if (int(s[i]) <= -1 && int(s[i]) >= -64) {
-			s[i] = dicionario[int(s[i]) + 64]; //se tiver acento, tira o acento
-		}
+		//if (int(s[i]) <= -1 && int(s[i]) >= -64) {
+		//	s[i] = dicionario[int(s[i]) + 64]; //se tiver acento, tira o acento
+		//}
 		s[i] = tolower(s[i]);
 
 		if (int(s[i]) >= 0 && (ispunct(s[i]) || s[i] == ' ')) { //se for pontuacao ou espaco substitui por '*'
@@ -66,7 +62,8 @@ vector < vector <int> > word_breaker(string& s) {
 	vector <int> palavra;
 	for (int i = 0; i < s.length(); i++) {
 		if (s[i] == '*') {//se chegou no fim da palavra, adicione-a ao vetor e delete o conteudo atual
-			Palavras.push_back(palavra);
+      if (!palavra.empty())
+        Palavras.push_back(palavra);
 			palavra.clear();
 		}
 		else {
@@ -83,7 +80,8 @@ vector <string> word_breaker2(string& s) {
 	string palavra;
 	for (int i = 0; i < s.length(); i++) {
 		if (s[i] == '*') {//se chegou no fim da palavra, adicione-a ao vetor e delete o conteudo atual
-			Palavras.push_back(palavra);
+      if (palavra != "")
+        Palavras.push_back(palavra);
 			palavra.clear();
 		}
 		else {

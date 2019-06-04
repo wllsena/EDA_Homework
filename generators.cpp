@@ -13,7 +13,7 @@ vector<string> file_names() {
   // William
   vector<string> files;
   string file;
-  ifstream File("file_names.txt");
+  ifstream File("files_names.txt");
   if (File.is_open()) {
     while (getline(File, file))
       files.push_back("raw.en/" + file);
@@ -43,27 +43,34 @@ void save_text(PTT *text) {
 void read_and_insert (disk_trie *tree, int *counters, int *indexes, bool counter_or_index) {
   // Bruno
 	vector <vector<int> > Line_words;
+  vector <vector<int> > old_words;
 	string line;
 	ifstream File("sorted_text.txt");
 
 	if (File.is_open()) {
     if (counter_or_index) {
       while (getline(File, line)) {
+        old_words.clear();
         convert(line);
         Line_words = word_breaker(line);
         for (vector<int> word : Line_words) {
-          if (!word.empty())
+          if (!word.empty() and find(old_words.begin(), old_words.end(), word) == old_words.end()) {
             put_word_and_counter(tree, counters, word);
+            old_words.push_back(word);
+          };
         };
       };
     } else {
       int text_counter = 0;
       while (getline(File, line)) {
+        old_words.clear();
         convert(line);
         Line_words = word_breaker(line);
         for (vector<int> word : Line_words) {
-          if (!word.empty())
+          if (!word.empty() and find(old_words.begin(), old_words.end(), word) == old_words.end()) {
             put_index(indexes, tree, counters, word, text_counter);
+            old_words.push_back(word);
+          };
         }
         text_counter++;
       };
@@ -110,6 +117,12 @@ int main () {
   int * indexes = (int *)Indexes.data();
 
   read_and_insert(disk_tree, counters, indexes, true);
+  int current, accumulated = 0;
+  for(int i = 0; i < number_of_tries; i++) {
+    current = counters[i];
+    counters[i] = accumulated;
+    accumulated += current + 1;
+  };
   read_and_insert(disk_tree, counters, indexes, false);
 
   Trie_structure.close();

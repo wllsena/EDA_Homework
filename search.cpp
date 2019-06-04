@@ -1,14 +1,23 @@
 #include <boost/iostreams/device/mapped_file.hpp>
 #include <boost/iostreams/stream.hpp>
-#include "trie.cpp"
 #include <iostream>
+#include "text_processing.cpp"
+#include "print_results.cpp"
+#include "trie.cpp"
 
 using namespace std;
 namespace bio = boost::iostreams;
-
+vector<vector<int> > words; vector<int> wnull, intersect; int i, size, stance; string word, answer;
+auto start = chrono::high_resolution_clock::now();
+auto finish = chrono::high_resolution_clock::now();
+chrono::duration<double> elapsed;
 bio::mapped_file_params params;
 
 int main () {
+  // William
+  // Part 1
+  cout << "… Loading index done!" << endl;
+
   params.path          = "trie_structure";
   params.new_file_size = number_of_tries*sizeof(disk_trie);
   bio::mapped_file_source Trie_structure(params);
@@ -27,10 +36,30 @@ int main () {
   trie *tree = load_trie(disk_tree);
   Trie_structure.close();
 
-  vector<int> fuck;
-  fuck.push_back(1);
-  cout << search(tree, fuck) << endl;;
+	for (i = 0; i < 36; i++) wnull.push_back(i);
+
+  // Part 2
+	while (true) {
+    cout << "Enter your query: ";
+    getline(cin >> ws, word);
+
+		convert(word);
+		words = word_breaker(word);
+		size = words.size();
+		int results[size];
+		search(tree, wnull);
+
+		start = chrono::high_resolution_clock::now();
+		for (stance = 0; stance < size; stance++)
+			results[stance] = search(tree, words[stance]);
+		finish = chrono::high_resolution_clock::now();
+		elapsed = finish - start;
+
+    intersect = intersection(results, counters, indexes, size);
+    cout << ".. About " << intersect.size() << " results (" << elapsed.count() << " seconds or " << 1000000*elapsed.count() << " microseconds)\n";
+  };
 
   Counters.close();
   Indexes.close();
+  return 0;
 };

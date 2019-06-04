@@ -132,7 +132,6 @@ englishText_770000_780000
 englishText_780000_790000
 englishText_790000_800000
 englishText_800000_810000
-englishText_80000_90000
 englishText_810000_820000
 englishText_820000_830000
 englishText_830000_840000

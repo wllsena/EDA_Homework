@@ -1,10 +1,8 @@
-﻿#include "text_processing.cpp"
-#include <string>
-#include <fstream>
+﻿#include <fstream>
 #include <algorithm>
 #include <set>
 #include <math.h>
-
+#include "text_processing.cpp"
 
 using namespace std;
 int COUNT = 0; // used to count how many pages I have read in "organize_text()"

@@ -15,7 +15,7 @@ struct trie {
 int disk_branch, position, counter;
 int trie_position = 1;
 int number_of_tries = 8233674;
-int number_of_indexes = 0 + number_of_tries; // mudar
+int number_of_indexes = 100*number_of_tries; // mudar
 unsigned int global_counter = 0; // remover
 trie *branch;
 
