@@ -1,4 +1,5 @@
-﻿#include <string>
+﻿// Bruno
+#include <string>
 #include <vector>
 
 using namespace std;
@@ -39,11 +40,7 @@ void convert(string& s) {
 		if (found != string::npos) {
 			s[i] = dicionario[found];
 		}
-
-		//if (int(s[i]) <= -1 && int(s[i]) >= -64) {
-		//	s[i] = dicionario[int(s[i]) + 64]; //se tiver acento, tira o acento
-		//}
-		s[i] = tolower(s[i]);
+    s[i] = tolower(s[i]);
 
 		if (int(s[i]) >= 0 && (ispunct(s[i]) || s[i] == ' ')) { //se for pontuacao ou espaco substitui por '*'
 			s[i] = '*';

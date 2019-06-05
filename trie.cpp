@@ -1,3 +1,4 @@
+//William
 #include <vector>
 
 using namespace std;
@@ -14,9 +15,8 @@ struct trie {
 
 int disk_branch, position, counter;
 int trie_position = 1;
-int number_of_tries = 8233674;
-int number_of_indexes = 100*number_of_tries; // mudar
-unsigned int global_counter = 0; // remover
+int number_of_tries = 8233674 + 1000; // mudar
+int number_of_indexes = 200*number_of_tries; // mudar
 trie *branch;
 
 void put_word_and_counter (disk_trie *tree, int *counters, const vector<int> &word) {
@@ -31,21 +31,13 @@ void put_word_and_counter (disk_trie *tree, int *counters, const vector<int> &wo
     disk_branch = tree[disk_branch].children[word[position]];
   };
   counters[disk_branch]++;
-  global_counter++; // remover
-};
-
-int disk_search(const disk_trie *tree, const vector<int> &word) {
-  disk_branch = 0;
-  for (position = 0; position != word.size(); position++) {
-    disk_branch = tree[disk_branch].children[word[position]];
-    if (!disk_branch)
-      return 0;
-  };
-  return disk_branch;
 };
 
 void put_index (int *indexes, const disk_trie *tree, const int *counters, const vector<int> &word, const int &index) {
-  counter = counters[disk_search(tree, word)];
+  disk_branch = 0;
+  for (position = 0; position != word.size(); position++)
+    disk_branch = tree[disk_branch].children[word[position]];
+  counter = counters[disk_branch];
   indexes[counter]++;
   indexes[counter + indexes[counter]] = index;
 };

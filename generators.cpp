@@ -1,10 +1,11 @@
+// William and Bruno
 #include <boost/iostreams/device/mapped_file.hpp>
 #include <boost/iostreams/stream.hpp>
 #include "organize_text.cpp"
 #include "trie.cpp"
 
 namespace bio = boost::iostreams;
-using namespace std;
+//using namespace std;
 
 bio::mapped_file_params params;
 int number_of_pages = 1359146;
@@ -24,20 +25,20 @@ vector<string> file_names() {
 void save_text(PTT *text) {
   // Bruno
   ofstream sorted_titles;
-	ofstream sorted_text;
+	ofstream sorted_texts;
 
 	sorted_titles.open("sorted_titles.txt");
-	sorted_text.open("sorted_text.txt");
+	sorted_texts.open("sorted_texts.txt");
 
 	for (int i = 0; i <  number_of_pages; i++) {
 		sorted_titles << text[i].titulo;
 		sorted_titles << "\n";
-		sorted_text << text[i].texto;
-		sorted_text << "\n";
+		sorted_texts << text[i].texto;
+		sorted_texts << "\n";
 	};
 
 	sorted_titles.close();
-	sorted_text.close();
+	sorted_texts.close();
 };
 
 void read_and_insert (disk_trie *tree, int *counters, int *indexes, bool counter_or_index) {
@@ -45,7 +46,7 @@ void read_and_insert (disk_trie *tree, int *counters, int *indexes, bool counter
 	vector <vector<int> > Line_words;
   vector <vector<int> > old_words;
 	string line;
-	ifstream File("sorted_text.txt");
+	ifstream File("sorted_texts.txt");
 
 	if (File.is_open()) {
     if (counter_or_index) {
@@ -78,10 +79,10 @@ void read_and_insert (disk_trie *tree, int *counters, int *indexes, bool counter
     File.close();
   };
 };
-
+#include <iostream>
 int main () {
   // William
-  system("rm temporary & rm trie_structure & rm counters & rm indexes & rm sorted_titles.txt & rm sorted_text.txt");
+  system("rm temporary & rm trie_structure & rm counters & rm indexes & rm sorted_titles.txt & rm sorted_texts.txt");
   vector<string> files = file_names();
 
   params.path          = "temporary";
@@ -128,4 +129,7 @@ int main () {
   Trie_structure.close();
   Counters.close();
   Indexes.close();
+
+  cout << accumulated << " indexes" << endl;
+  cout << trie_position << " tries" << endl;
 };

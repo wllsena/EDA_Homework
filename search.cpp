@@ -1,13 +1,13 @@
+//William
 #include <boost/iostreams/device/mapped_file.hpp>
 #include <boost/iostreams/stream.hpp>
-#include <iostream>
 #include "text_processing.cpp"
 #include "print_results.cpp"
 #include "trie.cpp"
 
 using namespace std;
 namespace bio = boost::iostreams;
-vector<vector<int> > words; vector<int> wnull, intersect; int i, size, stance; string word, answer;
+vector<vector<int> > words; vector<int> wnull, intersect; int i, size, stance; string word;
 auto start = chrono::high_resolution_clock::now();
 auto finish = chrono::high_resolution_clock::now();
 chrono::duration<double> elapsed;
@@ -57,6 +57,7 @@ int main () {
 
     intersect = intersection(results, counters, indexes, size);
     cout << ".. About " << intersect.size() << " results (" << elapsed.count() << " seconds or " << 1000000*elapsed.count() << " microseconds)\n";
+    print_results(intersect);
   };
 
   Counters.close();
