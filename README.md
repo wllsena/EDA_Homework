@@ -1,3 +1,3 @@
 # EDA Homework
-g++ -o testing -std=c++11 testing.cpp -lboost_iostreams
-
+g++ -o generators -std=c++11 generators.cpp -lboost_iostreams
+g++ -o search -std=c++11 search.cpp -lboost_iostreams
