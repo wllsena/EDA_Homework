@@ -16,7 +16,7 @@ struct trie {
 int disk_branch, position, counter;
 int trie_position = 1;
 int number_of_tries = 8233674 + 1000; // mudar
-int number_of_indexes = 200*number_of_tries; // mudar
+int number_of_indexes = 100*number_of_tries; // mudar
 trie *branch;
 
 void put_word_and_counter (disk_trie *tree, int *counters, const vector<int> &word) {

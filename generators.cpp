@@ -3,9 +3,9 @@
 #include <boost/iostreams/stream.hpp>
 #include "organize_text.cpp"
 #include "trie.cpp"
+#include <iostream> // tirar
 
 namespace bio = boost::iostreams;
-//using namespace std;
 
 bio::mapped_file_params params;
 int number_of_pages = 1359146;
@@ -31,10 +31,8 @@ void save_text(PTT *text) {
 	sorted_texts.open("sorted_texts.txt");
 
 	for (int i = 0; i <  number_of_pages; i++) {
-		sorted_titles << text[i].titulo;
-		sorted_titles << "\n";
-		sorted_texts << text[i].texto;
-		sorted_texts << "\n";
+		sorted_titles << text[i].titulo << "\n";
+		sorted_texts << text[i].texto << "\n";
 	};
 
 	sorted_titles.close();
@@ -79,7 +77,7 @@ void read_and_insert (disk_trie *tree, int *counters, int *indexes, bool counter
     File.close();
   };
 };
-#include <iostream>
+
 int main () {
   // William
   system("rm temporary & rm trie_structure & rm counters & rm indexes & rm sorted_titles.txt & rm sorted_texts.txt");

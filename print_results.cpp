@@ -24,10 +24,10 @@ void print_results(const vector<int> &results) {
         getline(cin >> ws, answer);
       };
     };
-    cout << "Do you want to open any result [n or result number]? ";
+    cout << "Do you want to open any result [n or result number (in the last 20 prints)]? ";
     getline(cin >> ws, answer);
     if (isdigit(answer[0]) and (answer.length() != 1? isdigit(answer[1]) : true))
-      cout << boost::replace_all_copy(texts[(stoi(answer)-1)], "物", "\n");
+      cout << boost::replace_all_copy(texts[(stoi(answer)-1)%20], "物", "\n");
   };
 };
 

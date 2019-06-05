@@ -49,11 +49,13 @@ int main () {
 		int results[size];
 		search(tree, wnull);
 
+    // SEARCH - START
 		start = chrono::high_resolution_clock::now();
 		for (stance = 0; stance < size; stance++)
 			results[stance] = search(tree, words[stance]);
 		finish = chrono::high_resolution_clock::now();
 		elapsed = finish - start;
+    // SEARCH - END
 
     intersect = intersection(results, counters, indexes, size);
     cout << ".. About " << intersect.size() << " results (" << elapsed.count() << " seconds or " << 1000000*elapsed.count() << " microseconds)\n";

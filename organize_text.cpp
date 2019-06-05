@@ -24,7 +24,7 @@ void alphabetical_insert(PTT original, PTT* Titulos) {
 
 void organize_text(PTT* Titulos, const vector<string> files) {
 	bool got_to_the_end = false;
-	int i = 0, ns;
+	int i = 0, ns = 2;
 	string title, line, text;
 	PTT* new_title = new PTT();
 	size_t title_begin, title_end; // 155
@@ -37,6 +37,7 @@ void organize_text(PTT* Titulos, const vector<string> files) {
             {
               if (line == "ENDOFARTICLE." && !new_title->titulo.empty())
                 {
+                  ns = 2;
                   i = -1;
                   new_title->texto = text;
                   if (COUNT == 0) Titulos[0] = *new_title;
@@ -50,7 +51,6 @@ void organize_text(PTT* Titulos, const vector<string> files) {
                   i++;
                   if (i < 2)
                     {
-                      ns = 2;
                       title_begin = line.find("title");
                       if (title_begin != string::npos)
                         {

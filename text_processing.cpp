@@ -9,11 +9,6 @@ struct PTT {
 	string texto;
 };
 
-struct PTI {
-	string titulo;
-	int indice;
-};
-
 int compare_string(string p1, string p2) {
 	for (int i = 0; i < min(p1.size(), p2.size()); i++)
 	{
@@ -40,15 +35,10 @@ void convert(string& s) {
 		if (found != string::npos) {
 			s[i] = dicionario[found];
 		}
-    s[i] = tolower(s[i]);
-
-		if (int(s[i]) >= 0 && (ispunct(s[i]) || s[i] == ' ')) { //se for pontuacao ou espaco substitui por '*'
-			s[i] = '*';
-		}
-		else if (int(s[i]) < 48 || (int(s[i]) > 57 && int(s[i]) < 97) || (int(s[i]) > 122)) {//se nao for um dos caracteres aceitos, apague
-			s.erase(i, 1);
-			i--;
-		}
+    if (isalnum(s[i]))
+      s[i] = tolower(s[i]);
+    else
+      s[i] = '*';
 	}
 }
 
