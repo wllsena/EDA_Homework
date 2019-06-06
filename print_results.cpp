@@ -8,27 +8,25 @@
 using namespace std;
 
 void print_results(const vector<int> &results) {
-  if (results.size()) {
-    ifstream sorted_titles("sorted_titles.txt");
-    ifstream sorted_texts("sorted_texts.txt");
-    string line_titles, line_texts, answer  = "";
-    string texts[20];
-    for (int i = 0, k = 0; i < results.size() and answer != "n";) {
-      while (results[i] >= k and getline(sorted_titles, line_titles) and getline(sorted_texts, line_texts))
-        k++;
-      cout << "[" << i + 1 << "] " << line_titles << endl;
-      texts[i%20] = "---------- " + line_titles + " ----------\n\n" + line_texts;
-      i++;
-      if (i != results.size() and i != 0 and i % 20 == 0) {
-        cout << "More results? (y, n): ";
-        getline(cin >> ws, answer);
-      };
+  ifstream sorted_titles("sorted_titles.txt");
+  ifstream sorted_texts("sorted_texts.txt");
+  string line_titles, line_texts, answer  = "";
+  string texts[20];
+  for (int i = 0, k = 0; i < results.size() and answer != "n";) {
+    while (results[i] >= k and getline(sorted_titles, line_titles) and getline(sorted_texts, line_texts))
+      k++;
+    cout << "[" << i + 1 << "] " << line_titles << endl;
+    texts[i%20] = "---------- " + line_titles + " ----------\n\n" + line_texts;
+    i++;
+    if (i != results.size() and i != 0 and i % 20 == 0) {
+      cout << "More results? (y, n): ";
+      getline(cin >> ws, answer);
     };
-    cout << "Do you want to open any result [n or result number (in the last 20 prints)]? ";
-    getline(cin >> ws, answer);
-    if (isdigit(answer[0]) and (answer.length() != 1? isdigit(answer[1]) : true))
-      cout << boost::replace_all_copy(texts[(stoi(answer)-1)%20], "物", "\n");
   };
+  cout << "Do you want to open any result [n or result number (in the last 20 prints)]? ";
+  getline(cin >> ws, answer);
+  if (isdigit(answer[0]) and (answer.length() != 1? isdigit(answer[1]) : true))
+    cout << boost::replace_all_copy(texts[(stoi(answer)-1)%20], "物", "\n");
 };
 
 vector<int> intersection(const int results[], const int * counters, const int * indexes, const int &size) {

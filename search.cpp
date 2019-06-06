@@ -1,13 +1,12 @@
 //William
 #include <boost/iostreams/device/mapped_file.hpp>
 #include <boost/iostreams/stream.hpp>
-#include "text_processing.cpp"
+#include "word_suggestor.cpp"
 #include "print_results.cpp"
-#include "trie.cpp"
 
 using namespace std;
 namespace bio = boost::iostreams;
-vector<vector<int> > words; vector<int> wnull, intersect; int i, size, stance; string word;
+vector<vector<int> > words; vector<int> wnull, intersect; int i, size, stance; string word = ""; bool suggest = false;
 auto start = chrono::high_resolution_clock::now();
 auto finish = chrono::high_resolution_clock::now();
 chrono::duration<double> elapsed;
@@ -40,8 +39,11 @@ int main () {
 
   // Part 2
 	while (true) {
-    cout << "Enter your query: ";
-    getline(cin >> ws, word);
+    if (!suggest) {
+      cout << "Enter your query: ";
+      getline(cin >> ws, word);
+      suggest = true;
+    };
 
 		convert(word);
 		words = word_breaker(word);
@@ -59,7 +61,14 @@ int main () {
 
     intersect = intersection(results, counters, indexes, size);
     cout << ".. About " << intersect.size() << " results (" << elapsed.count() << " seconds or " << 1000000*elapsed.count() << " microseconds)\n";
-    print_results(intersect);
+
+    if (intersect.size()) {
+      print_results(intersect);
+      suggest = false;
+    } else if (suggest) {
+      word = suggestion(tree, word_breaker2(word), counters, indexes);
+      suggest = word != "";
+    };
   };
 
   Counters.close();
