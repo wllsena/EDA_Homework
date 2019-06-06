@@ -10,9 +10,9 @@ using namespace std;
 void print_results(const vector<int> &results) {
   ifstream sorted_titles("sorted_titles.txt");
   ifstream sorted_texts("sorted_texts.txt");
-  string line_titles, line_texts, answer  = "";
+  string line_titles, line_texts, answer  = "y";
   string texts[20];
-  for (int i = 0, k = 0; i < results.size() and answer != "n";) {
+  for (int i = 0, k = 0; i < results.size() and answer == "y";) {
     while (results[i] >= k and getline(sorted_titles, line_titles) and getline(sorted_texts, line_texts))
       k++;
     cout << "[" << i + 1 << "] " << line_titles << endl;

@@ -1,9 +1,10 @@
 // William and Bruno
 #include <boost/iostreams/device/mapped_file.hpp>
 #include <boost/iostreams/stream.hpp>
-#include "organize_text.cpp"
+#include <iostream>
+#include <fstream>
 #include "trie.cpp"
-#include <iostream> // tirar
+#include "text_processing.cpp"
 
 namespace bio = boost::iostreams;
 
@@ -22,24 +23,7 @@ vector<string> file_names() {
   return files;
 };
 
-void save_text(PTT *text) {
-  // Bruno
-  ofstream sorted_titles;
-	ofstream sorted_texts;
-
-	sorted_titles.open("sorted_titles.txt");
-	sorted_texts.open("sorted_texts.txt");
-
-	for (int i = 0; i <  number_of_pages; i++) {
-		sorted_titles << text[i].titulo << "\n";
-		sorted_texts << text[i].texto << "\n";
-	};
-
-	sorted_titles.close();
-	sorted_texts.close();
-};
-
-void read_and_insert (disk_trie *tree, int *counters, int *indexes, bool counter_or_index) {
+void read_and_insert (disk_trie *tree, int *counters, int *indexes, const bool counter_or_index) {
   // Bruno
 	vector <vector<int> > Line_words;
   vector <vector<int> > old_words;
@@ -80,28 +64,11 @@ void read_and_insert (disk_trie *tree, int *counters, int *indexes, bool counter
 
 int main () {
   // William
-  system("rm temporary & rm trie_structure & rm counters & rm indexes & rm sorted_titles.txt & rm sorted_texts.txt");
-  vector<string> files = file_names();
-
-  params.path          = "temporary";
-  params.new_file_size = 4000000000;
-  params.flags         = bio::mapped_file::mapmode::readwrite;
-  bio::mapped_file_sink Text(params);
-
-  PTT * text = (PTT *)Text.data();
-  organize_text(text, files);
-  save_text(text);
-
-  Text.close();
-  files.clear();
-
-  system("rm temporary");
-
-  params.path          = "trie_structure";
+  params.path          = "tries";
   params.new_file_size = number_of_tries*sizeof(disk_trie);
   params.flags         = bio::mapped_file::mapmode::readwrite;
-  bio::mapped_file_sink Trie_structure(params);
-  disk_trie * disk_tree = (disk_trie *)Trie_structure.data();
+  bio::mapped_file_sink Tries(params);
+  disk_trie * disk_tree = (disk_trie *)Tries.data();
 
   params.path          = "counters";
   params.new_file_size = number_of_tries*sizeof(int);
@@ -124,7 +91,7 @@ int main () {
   };
   read_and_insert(disk_tree, counters, indexes, false);
 
-  Trie_structure.close();
+  Tries.close();
   Counters.close();
   Indexes.close();
 

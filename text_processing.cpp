@@ -4,32 +4,11 @@
 
 using namespace std;
 
-struct PTT {
-	string titulo;
-	string texto;
-};
-
-int compare_string(string p1, string p2) {
-	for (int i = 0; i < min(p1.size(), p2.size()); i++)
-	{
-		if (int(p1[i]) < int(p2[i]))
-		{
-			return true;
-		}
-		else if (int(p1[i]) > int(p2[i]))
-		{
-			return false;
-		}
-	}
-	return false;
-}
-
-string dicionario_acentuado = "ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖ×ØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõö÷øùúûüýþÿ"; //todos os caracteres acentuados
-string dicionario = "AAAAAAECEEEEIIIIDNOOOOOx0UUUUYPsaaaaaaeceeeeiiiiOnooooo/0uuuuypy"; //todas os caracteres acentuados, so que desacentuados
+string dicionario_acentuado = "ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖ×ØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿ"; //todos os caracteres acentuados
+string dicionario = "AAAAAAECEEEEIIIIDNOOOOOx0UUUUYPsaaaaaaeceeeeiiiiOnooooo0uuuuypy"; //todas os caracteres acentuados, so que desacentuados
 size_t found;
 void convert(string& s) {
 	//Essa funcao converte todo o texto em minusculo, tira a pontuacao e divide palavras por '*'
-	s.push_back(' '); //acrescentando um espaco no final do texto
 	for (int i = 0; i < s.length(); i++) {
 		found = dicionario_acentuado.find(s[i]);
 		if (found != string::npos) {
@@ -37,9 +16,18 @@ void convert(string& s) {
 		}
     if (isalnum(s[i]))
       s[i] = tolower(s[i]);
-    else
+    else if ((s[i] == '\'' or s[i] == '-') and i != 0 and i + 1 != s.length() and isalnum(s[i-1]) and isalnum(s[i+1])) {
+      s.erase(i, 1);
+      i--;
+    } else if (i != 0 and s[i-1] != '*')
       s[i] = '*';
+    else {
+      s.erase(i, 1);
+      i--;
+    }
 	}
+  if (s.length() != 0 and s[s.length()-1] != '*')
+    s.push_back('*'); //acrescentando um espaco no final do texto
 }
 
 vector < vector <int> > word_breaker(string& s) {

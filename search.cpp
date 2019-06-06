@@ -17,10 +17,10 @@ int main () {
   // Part 1
   cout << "… Loading index done!" << endl;
 
-  params.path          = "trie_structure";
+  params.path          = "tries";
   params.new_file_size = number_of_tries*sizeof(disk_trie);
-  bio::mapped_file_source Trie_structure(params);
-  disk_trie * disk_tree = (disk_trie *)Trie_structure.data();
+  bio::mapped_file_source Tries(params);
+  disk_trie * disk_tree = (disk_trie *)Tries.data();
 
   params.path          = "counters";
   params.new_file_size = number_of_tries*sizeof(int);
@@ -33,7 +33,7 @@ int main () {
   int * indexes = (int *)Indexes.data();
 
   trie *tree = load_trie(disk_tree);
-  Trie_structure.close();
+  Tries.close();
 
 	for (i = 0; i < 36; i++) wnull.push_back(i);
 

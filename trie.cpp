@@ -15,7 +15,7 @@ struct trie {
 
 int disk_branch, position, counter;
 int trie_position = 1;
-int number_of_tries = 8233674 + 1000; // mudar
+int number_of_tries = 8233674 + 1000000; // mudar
 int number_of_indexes = 100*number_of_tries; // mudar
 trie *branch;
 
@@ -32,15 +32,13 @@ void put_word_and_counter (disk_trie *tree, int *counters, const vector<int> &wo
   };
   counters[disk_branch]++;
 };
-#include <iostream>
+
 void put_index (int *indexes, const disk_trie *tree, const int *counters, const vector<int> &word, const int &index) {
   disk_branch = 0;
   for (position = 0; position != word.size(); position++)
     disk_branch = tree[disk_branch].children[word[position]];
   counter = counters[disk_branch];
   indexes[counter]++;
-  if (indexes[counter + indexes[counter]] != 0)
-    cout << index << "-";
   indexes[counter + indexes[counter]] = index;
 };
 
