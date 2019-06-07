@@ -12,7 +12,7 @@ vector<string> file_names() {
   };
   return files;
 };
-
+#include <iostream>
 int main () {
   const vector<string> files = file_names();
 	bool got_to_the_end = false;
