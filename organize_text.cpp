@@ -27,7 +27,7 @@ void organize_text(const vector<string> files) {
 	int i = 0, ns = 2, counter = 0;
 	size_t title_begin, title_end;
 	string title, line, text;
-	ofstream /*pre_titles, */pre_texts, pre_words_to_insert;
+	ofstream pre_titles, pre_texts, pre_words_to_insert;
 	vector< vector<int> > line_words;
 	pre_titles.open("unsorted_titles.txt");
 	pre_texts.open("unsorted_texts.txt");
