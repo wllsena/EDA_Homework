@@ -2,27 +2,19 @@
 #include <fstream>
 #include "text_processing.cpp"
 
-int COUNT = 0; // used to count how many pages I have read in "organize_text()"
+vector<string> file_names() {
+  vector<string> files;
+  string file;
+  ifstream File("files_names.txt");
+  if (File.is_open()) {
+    while (getline(File, file))
+      files.push_back("raw.en/" + file);
+  };
+  return files;
+};
 
-void alphabetical_insert(PTT original, PTT* Titulos) {
-	PTT to_insert = original;
-	for (int i = 0; i < COUNT; i++)
-    {
-      if ( compare_string(to_insert.titulo, Titulos[i].titulo) )
-        {
-          for (int k = COUNT - 1; k >= i; k--)
-            {
-              Titulos[k + 1] = Titulos[k];
-            }
-          Titulos[i] = to_insert;
-          return;
-        }
-    }
-	Titulos[COUNT] = to_insert;
-	return;
-}
-
-void organize_text(const vector<string> files) {
+int main () {
+  const vector<string> files = file_names();
 	bool got_to_the_end = false;
 	int i = 0, ns = 2, counter = 0;
 	size_t title_begin, title_end;
@@ -73,16 +65,7 @@ void organize_text(const vector<string> files) {
 							text.append("物");
 						got_to_the_end = false;
 						convert(line);
-						line_words = word_breaker(line);
-						for (auto it = line_words.begin(); it != line_words.end(); it++)
-						{
-							for (auto it2 = it->begin(); it2 != it->end(); it2++)
-							{
-								pre_words_to_insert << *it2;
-								pre_words_to_insert << ".";
-							}
-							pre_words_to_insert << "*";
-						}
+            pre_words_to_insert << line;
 					}
 				}
 			}
@@ -98,7 +81,6 @@ void organize_text(const vector<string> files) {
 			}
 		}
 		counter++;
-		cout << "Ja foi " + to_string(counter) + " !" << endl;
 	}
 	pre_titles.close();
 	pre_texts.close();

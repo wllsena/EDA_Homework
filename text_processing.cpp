@@ -11,38 +11,31 @@ struct PTI {
 
 bool my_isalnum(const char& c) {
 	int ascii_value = int(c);
-	if ((ascii_value >= 48 and ascii_value <= 57) or (ascii_value >= 65 and ascii_value <= 90) or (ascii_value >= 97 and ascii_value <= 122))
-		return true;
-	else
-		return false;
+	return (ascii_value >= 48 and ascii_value <= 57) or (ascii_value >= 65 and ascii_value <= 90) or (ascii_value >= 97 and ascii_value <= 122);
 }
 
-string dicionario_acentuado = "ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖ×ØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿ"; //todos os caracteres acentuados
-string dicionario = "AAAAAAECEEEEIIIIDNOOOOOx0UUUUYPsaaaaaaeceeeeiiiiOnooooo0uuuuypy"; //todas os caracteres acentuados, so que desacentuados
-size_t found;
+string dicionario = "aaaaaaeceeeeiiiidnooooox0uuuuypsaaaaaaeceeeeiiiionooooo0uuuuypy";
 void convert(string& s) {
 	//Essa funcao converte todo o texto em minusculo, tira a pontuacao e divide palavras por '*'
+  s.push_back(' '); //acrescentando um espaco no final do texto
 	for (int i = 0; i < s.length(); i++) {
-		found = dicionario_acentuado.find(s[i]);
-		if (found != string::npos) {
-			s[i] = dicionario[found];
-		}
-
-		if (my_isalnum(s[i]))
+    if (int(s[i]) == -61 and i + 1 != s.length()) {
+      s[i+1] = dicionario[int(s[i+1]) + 128];
+			s.erase(i, 1);
+      i--;
+    } else if (my_isalnum(s[i]))
 			s[i] = tolower(s[i]);
 		else if ((s[i] == '\'' or s[i] == '-') and i != 0 and i + 1 != s.length() and my_isalnum(s[i - 1]) and my_isalnum(s[i + 1])) {
 			s.erase(i, 1);
 			i--;
 		}
-		else if (i != 0 and s[i - 1] != '*')
+		else if (int(s[i]) >= 0 and i != 0 and s[i - 1] != '*')
 			s[i] = '*';
 		else {
 			s.erase(i, 1);
 			i--;
 		}
 	}
-	if (s.length() != 0 and s[s.length() - 1] != '*')
-		s.push_back('*'); //acrescentando um espaco no final do texto
 }
 
 vector < vector <int> > word_breaker(string& s) {

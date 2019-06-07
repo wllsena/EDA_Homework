@@ -7,20 +7,19 @@
 
 namespace bio = boost::iostreams;
 
-int number_of_pages = 1359146;
+//const int number_of_pages = 1359146;
 
-void read_and_insert (disk_trie *tree, int *counters, int *indexes, const bool counter_or_index) { // mudar
+void read_and_insert (disk_trie *tree, int *counters, int *indexes, const bool counter_or_index) {
   // Bruno
 	vector <vector<int> > Line_words;
   vector <vector<int> > old_words;
 	string line;
-	ifstream File("sorted_texts.txt");
+	ifstream File("words_to_insert.txt");
 
 	if (File.is_open()) {
     if (counter_or_index) {
       while (getline(File, line)) {
         old_words.clear();
-        convert(line);
         Line_words = word_breaker(line);
         for (vector<int> word : Line_words) {
           if (!word.empty() and find(old_words.begin(), old_words.end(), word) == old_words.end()) {
@@ -33,7 +32,6 @@ void read_and_insert (disk_trie *tree, int *counters, int *indexes, const bool c
       int text_counter = 0;
       while (getline(File, line)) {
         old_words.clear();
-        convert(line);
         Line_words = word_breaker(line);
         for (vector<int> word : Line_words) {
           if (!word.empty() and find(old_words.begin(), old_words.end(), word) == old_words.end()) {
