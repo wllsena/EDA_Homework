@@ -3,16 +3,23 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
-#include <cctype>
 
 using namespace std;
+
+bool number(string &answer) {
+  for(char c : answer) {
+    if (!isdigit(c))
+      return false;
+  }
+  return true;
+}
 
 void print_results(const vector<int> &results) {
   ifstream sorted_titles("sorted_titles.txt");
   ifstream sorted_texts("sorted_texts.txt");
   string line_titles, line_texts, answer  = "y";
   string texts[20];
-  for (int i = 0, k = 0; i < results.size() and answer == "y";) {
+  for (int i = 0, k = 0; i != results.size() and answer == "y";) {
     while (results[i] >= k and getline(sorted_titles, line_titles) and getline(sorted_texts, line_texts))
       k++;
     cout << "[" << i + 1 << "] " << line_titles << endl;
@@ -25,18 +32,18 @@ void print_results(const vector<int> &results) {
   };
   cout << "Do you want to open any result [n or result number (in the last 20 prints)]? ";
   getline(cin >> ws, answer);
-  if (isdigit(answer[0]) and (answer.length() != 1? isdigit(answer[1]) : true))
+  if (number(answer))
     cout << boost::replace_all_copy(texts[(stoi(answer)-1)%20], "物", "\n");
 };
 
 vector<int> intersection(const int results[], const int * counters, const int * indexes, const int &size) {
   vector<int> intersect;
   bool common;
-  int i, counter;
+  int k, counter;
   vector<int>::iterator iters[size];
   vector<int>::iterator ends[size];
   vector<int> vectores[size];
-  for (i = 0; i < size; i++) {
+  for (int i = 0; i != size; i++) {
     if (results[i] == 0) return intersect;
     counter = counters[results[i]];
     vector<int> vec(indexes+(counter+1), indexes+(counter+1+indexes[counter]));
@@ -44,16 +51,16 @@ vector<int> intersection(const int results[], const int * counters, const int * 
     iters[i] = vectores[i].begin();
     ends[i] = vectores[i].end();
   };
-  while(iters[0] < ends[0]) {
+  while(iters[0] != ends[0]) {
     common = true;
-    for(i = 1; i < size; i++) {
-      while(iters[i] < ends[i] and *iters[i] < *iters[0])
-        iters[i]++;
-      if (iters[i] == ends[i])
+    for(k = 1; k != size; k++) {
+      while(iters[k] != ends[k] and *iters[k] < *iters[0])
+        iters[k]++;
+      if (iters[k] == ends[k])
         return intersect;
-      if (*iters[i] > *iters[0]) {
+      if (*iters[k] > *iters[0]) {
         common = false;
-        i = size;
+        k = size-1;
       };
     };
     if (common)

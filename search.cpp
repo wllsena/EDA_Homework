@@ -13,7 +13,6 @@ chrono::duration<double> elapsed;
 bio::mapped_file_params params;
 
 int main () {
-  // William
   // Part 1
   cout << "… Loading index done!" << endl;
 
@@ -35,7 +34,7 @@ int main () {
   trie *tree = load_trie(disk_tree);
   Tries.close();
 
-	for (i = 0; i < 36; i++) wnull.push_back(i);
+	for (i = 0; i != 36; i++) wnull.push_back(i);
 
   // Part 2
 	while (true) {
@@ -53,7 +52,7 @@ int main () {
 
     // SEARCH - START
 		start = chrono::high_resolution_clock::now();
-		for (stance = 0; stance < size; stance++)
+		for (stance = 0; stance != size; stance++)
 			results[stance] = search(tree, words[stance]);
 		finish = chrono::high_resolution_clock::now();
 		elapsed = finish - start;

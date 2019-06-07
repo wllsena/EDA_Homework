@@ -1,29 +1,15 @@
 // William and Bruno
 #include <boost/iostreams/device/mapped_file.hpp>
 #include <boost/iostreams/stream.hpp>
-#include <iostream>
 #include <fstream>
-#include "trie.cpp"
 #include "text_processing.cpp"
+#include "trie.cpp"
 
 namespace bio = boost::iostreams;
 
-bio::mapped_file_params params;
 int number_of_pages = 1359146;
 
-vector<string> file_names() {
-  // William
-  vector<string> files;
-  string file;
-  ifstream File("files_names.txt");
-  if (File.is_open()) {
-    while (getline(File, file))
-      files.push_back("raw.en/" + file);
-  };
-  return files;
-};
-
-void read_and_insert (disk_trie *tree, int *counters, int *indexes, const bool counter_or_index) {
+void read_and_insert (disk_trie *tree, int *counters, int *indexes, const bool counter_or_index) { // mudar
   // Bruno
 	vector <vector<int> > Line_words;
   vector <vector<int> > old_words;
@@ -64,6 +50,8 @@ void read_and_insert (disk_trie *tree, int *counters, int *indexes, const bool c
 
 int main () {
   // William
+  bio::mapped_file_params params;
+
   params.path          = "tries";
   params.new_file_size = number_of_tries*sizeof(disk_trie);
   params.flags         = bio::mapped_file::mapmode::readwrite;
@@ -83,18 +71,10 @@ int main () {
   int * indexes = (int *)Indexes.data();
 
   read_and_insert(disk_tree, counters, indexes, true);
-  int current, accumulated = 0;
-  for(int i = 0; i < number_of_tries; i++) {
-    current = counters[i];
-    counters[i] = accumulated;
-    accumulated += current + 1;
-  };
+  accumulate_counters(counters);
   read_and_insert(disk_tree, counters, indexes, false);
 
   Tries.close();
   Counters.close();
   Indexes.close();
-
-  cout << accumulated << " indexes" << endl;
-  cout << trie_position << " tries" << endl;
 };
