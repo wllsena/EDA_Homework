@@ -14,7 +14,7 @@ void read_and_insert (disk_trie *tree, int *counters, int *indexes, const bool c
 	vector <vector<int> > Line_words;
   vector <vector<int> > old_words;
 	string line;
-	ifstream File("words_to_insert.txt");
+	ifstream File("sorted_words_to_insert.txt");
 
 	if (File.is_open()) {
     if (counter_or_index) {
