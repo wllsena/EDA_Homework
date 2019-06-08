@@ -93,6 +93,27 @@ void edits2(const std::string& error, std::unordered_set<std::string>& words2)
     }
 }
 
+void edits3(const std::string& error, std::unordered_set<std::string>& words3)
+{
+	words3.clear();
+	std::unordered_set<std::string> words1;
+	edits1(error, words1);
+	std::unordered_set<std::string> tmp_words2;
+	std::unordered_set<std::string> tmp_words3;
+	for (const auto& word1 : words1)
+	{
+		edits1(word1, tmp_words2);
+		for (const auto& word2 : tmp_words2)
+		{
+			edits1(word2, tmp_words3);
+			for (const auto& word3 : tmp_words3)
+			{
+				words3.insert(word3);
+			}
+		}
+	}
+}
+
 string MostFrequent(trie* tree, unordered_set<string>& candidates, const int *counters, const int *indexes)
 {
 	std::string answer;
@@ -131,6 +152,10 @@ string correct(trie* tree, string error, const int *counters, const int *indexes
 	answer = MostFrequent(tree, candidates, counters, indexes);
 	if (!answer.empty())
 		return answer;
+	edits3(error1, candidates);
+	answer = MostFrequent(tree, candidates, counters, indexes);
+	if (!answer.empty())
+		return answer
 	return error;
 }
 
