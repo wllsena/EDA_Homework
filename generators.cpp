@@ -15,10 +15,10 @@ void read_and_insert (disk_trie *tree, int *counters, int *indexes, const bool c
   vector <vector<int> > old_words;
 	string line;
 	ifstream File("sorted_words_to_insert.txt");
-
 	if (File.is_open()) {
     if (counter_or_index) {
       while (getline(File, line)) {
+        cout << "cout" << endl;
         old_words.clear();
         Line_words = word_breaker(line);
         for (vector<int> word : Line_words) {
@@ -31,6 +31,7 @@ void read_and_insert (disk_trie *tree, int *counters, int *indexes, const bool c
     } else {
       int text_counter = 0;
       while (getline(File, line)) {
+        cout << text_counter << endl;
         old_words.clear();
         Line_words = word_breaker(line);
         for (vector<int> word : Line_words) {

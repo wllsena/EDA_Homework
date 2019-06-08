@@ -4,8 +4,8 @@
 
 using namespace std;
 
-int number_of_tries = 8233674 + 1000000; // mudar
-int number_of_indexes = 100*number_of_tries; // mudar
+const int number_of_tries = 12034296 + 1203429; // mudar
+const int number_of_indexes = 261240654 + 26124065; // mudar
 
 struct disk_trie {
   int children[36];
