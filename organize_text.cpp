@@ -16,7 +16,7 @@ vector<string> file_names() {
 int main () {
   const vector<string> files = file_names();
 	bool got_to_the_end = false;
-	int i = 0, ns = 2, counter = 0;
+	int ns = 2, counter = 0;
 	size_t title_begin, title_end;
 	string title, line, text;
 	ofstream pre_titles, pre_texts, pre_words_to_insert;
@@ -34,7 +34,6 @@ int main () {
 				if (line == "ENDOFARTICLE.")
 				{
 					ns = 2;
-					i = -1;
 					pre_texts << text;
 					pre_texts << "\n";
 					pre_words_to_insert << "\n";
@@ -43,8 +42,7 @@ int main () {
 				}
 				else
 				{
-					i++;
-					if (i < 2)
+					if (line.find("<doc id=\"" != string::npos)
 					{
 						title_begin = line.find("title");
 						if (title_begin != string::npos)
@@ -65,14 +63,13 @@ int main () {
 							text.append("物");
 						got_to_the_end = false;
 						convert(line);
-            pre_words_to_insert << line;
+						pre_words_to_insert << line;
 					}
 				}
 			}
 			if (!got_to_the_end && !text.empty())
 			{
 				ns = 2;
-				i = -1;
 				pre_texts << text;
 				pre_texts << "\n";
 				pre_words_to_insert << "\n";
