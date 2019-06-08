@@ -71,7 +71,7 @@ int main () {
 
   read_and_insert(disk_tree, counters, indexes, true);
   accumulate_counters(counters);
-  read_and_insert(disk_tree, counters, indexes, false);
+  //read_and_insert(disk_tree, counters, indexes, false);
 
   Tries.close();
   Counters.close();

@@ -15,8 +15,8 @@ vector<string> file_names() {
 #include <iostream>
 int main () {
   const vector<string> files = file_names();
-	bool got_to_the_end = false;
-	int ns = 2, counter = 0;
+  bool had_title;
+	int ns = 2;
 	size_t title_begin, title_end;
 	string title, line, text;
 	ofstream pre_titles, pre_texts, pre_words_to_insert;
@@ -29,52 +29,50 @@ int main () {
       ifstream File(file);
       if (File.is_open())
         {
+          had_title = false;
           while (getline(File, line))
             {
-              if (line == "ENDOFARTICLE.")
+              if ((line == "ENDOFARTICLE." or line == "</doc>") and had_title)
                 {
                   ns = 2;
                   pre_texts << text;
                   pre_texts << "\n";
+                  convert(text);
+                  pre_words_to_insert << text;
                   pre_words_to_insert << "\n";
                   text.clear();
-                  got_to_the_end = true;
+                  had_title = false;
                 }
               else if (line.find("<doc id=\"") != string::npos)
                 {
-                  title_begin = line.find("title");
-                  if (title_begin != string::npos)
-                    {
-                      title_begin += 7;
-                      title_end = line.find(" non");
-                      title = line.substr(title_begin, title_end - title_begin - 1);
-                      pre_titles << title;
-                      pre_titles << "\n";
-                      title.clear();
-                    }
+                  title_begin = line.find("title") + 7;
+                  title_end = line.find(" non");
+                  title = line.substr(title_begin, title_end - title_begin - 1);
+                  pre_titles << title;
+                  pre_titles << "\n";
+                  title.clear();
+                  had_title = true;
                 }
-              else if (line != "</doc>")
+              else
                 {
                   text.append(line);
                   ns = (line != "" ? 0 : ns + 1);
                   if (ns < 2)
                     text.append("物");
-                  got_to_the_end = false;
-                  convert(line);
-                  pre_words_to_insert << line;
                 }
             }
-          if (!got_to_the_end && !text.empty())
+          if (had_title)
             {
               ns = 2;
               pre_texts << text;
               pre_texts << "\n";
+              convert(text);
+              pre_words_to_insert << text;
               pre_words_to_insert << "\n";
               text.clear();
-              got_to_the_end = true;
+              had_title = false;
             }
         }
-      counter++;
     }
   pre_titles.close();
   pre_texts.close();
