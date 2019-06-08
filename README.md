@@ -1,8 +1,8 @@
 # EDA Homework
 Pre-processing
 - g++ -o organize_text -std=c++11 organize_text.cpp
-- ./text_processing
-- python3 sorting_data
+- ./organize_text
+- python sorting_data.py
 - g++ -o generators -std=c++11 generators.cpp -lboost_iostreams
 - ./generators
 
