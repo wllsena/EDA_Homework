@@ -15,6 +15,7 @@ bool number(string &answer) {
 }
 
 void print_results(const vector<unsigned int> &results) {
+  cout << "... loading articles!"<< endl;
   ifstream sorted_titles("sorted_titles.txt");
   ifstream sorted_texts("sorted_texts.txt");
   string line_titles, line_texts, answer  = "y";

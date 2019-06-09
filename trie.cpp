@@ -4,9 +4,8 @@
 
 using namespace std;
 
-
-const unsigned int number_of_tries = 14165314;
-const unsigned int number_of_indexes = 260289729;
+const unsigned int number_of_tries = 14165308; //14165256
+const unsigned int number_of_indexes = 258933791; //258933789
 
 struct disk_trie {
   unsigned int children[36];
@@ -45,7 +44,7 @@ void put_index (unsigned int *indexes, const disk_trie *tree, const unsigned int
 
 void accumulate_counters (unsigned int *counters) {
   unsigned int current, accumulated = 0;
-  for(unsigned int i = 0; i != trie_position; i++) {
+  for(unsigned int i = 0; i != number_of_tries; i++) {
     current = counters[i];
     counters[i] = accumulated;
     accumulated += (current + 1);
@@ -64,7 +63,6 @@ unsigned int search(trie *tree, const vector<int> &word) {
   };
   return branch_search->index;
 };
-
 
 trie *load_trie (const disk_trie *disk_tree) {
   vector<trie *> pointers(number_of_tries);

@@ -14,7 +14,7 @@ bio::mapped_file_params params;
 
 int main () {
   // Part 1
-  cout << "… Loading index done!" << endl;
+  cout << "... Loading index done!" << endl;
 
   params.path          = "tries";
   params.new_file_size = number_of_tries*sizeof(disk_trie);
@@ -59,7 +59,7 @@ int main () {
     // SEARCH - END
 
     intersect = intersection(results, counters, indexes, size);
-    cout << ".. About " << intersect.size() << " results (" << elapsed.count() << " seconds or " << 1000000*elapsed.count() << " microseconds)\n";
+    cout << "... About " << intersect.size() << " results (" << elapsed.count() << " seconds or " << 1000000*elapsed.count() << " microseconds)\n";
 
     if (intersect.size()) {
       print_results(intersect);

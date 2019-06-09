@@ -34,9 +34,9 @@ int main () {
             {
               if (line == "ENDOFARTICLE." or line == "</doc>")
                 {
+                  ns = 2;
                   if (had_title)
                     {
-                      ns = 2;
                       pre_texts << text;
                       pre_texts << "\n";
                       convert(text);
@@ -64,9 +64,9 @@ int main () {
                     text.append("物");
                 }
             }
+          ns = 2;
           if (had_title)
             {
-              ns = 2;
               pre_texts << text;
               pre_texts << "\n";
               convert(text);
