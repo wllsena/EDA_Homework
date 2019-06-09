@@ -32,21 +32,24 @@ int main () {
           had_title = false;
           while (getline(File, line))
             {
-              if ((line == "ENDOFARTICLE." or line == "</doc>") and had_title)
+              if (line == "ENDOFARTICLE." or line == "</doc>")
                 {
-                  ns = 2;
-                  pre_texts << text;
-                  pre_texts << "\n";
-                  convert(text);
-                  pre_words_to_insert << text;
-                  pre_words_to_insert << "\n";
-                  text.clear();
-                  had_title = false;
+                  if (had_title)
+                    {
+                      ns = 2;
+                      pre_texts << text;
+                      pre_texts << "\n";
+                      convert(text);
+                      pre_words_to_insert << text;
+                      pre_words_to_insert << "\n";
+                      text.clear();
+                      had_title = false;
+                    }
                 }
               else if (line.find("<doc id=\"") != string::npos)
                 {
                   title_begin = line.find("title") + 7;
-                  title_end = line.find(" non");
+                  title_end = line.find(" nonfiltered");
                   title = line.substr(title_begin, title_end - title_begin - 1);
                   pre_titles << title;
                   pre_titles << "\n";
