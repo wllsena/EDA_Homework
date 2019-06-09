@@ -7,7 +7,7 @@
 
 namespace bio = boost::iostreams;
 
-void read_and_insert (disk_trie *tree, unsigned int *counters, unsigned int *indexes, const bool counter_or_index) {
+void read_and_insert (disk_trie *tree, int *counters, int *indexes, const bool counter_or_index) {
   // Bruno
 	vector <vector<int> > Line_words;
   vector <vector<int> > old_words;
@@ -54,16 +54,16 @@ int main () {
   disk_trie * disk_tree = (disk_trie *)Tries.data();
 
   params.path          = "counters";
-  params.new_file_size = number_of_tries*sizeof(unsigned int);
+  params.new_file_size = number_of_tries*sizeof(int);
   params.flags         = bio::mapped_file::mapmode::readwrite;
   bio::mapped_file_sink Counters(params);
-  unsigned int * counters = (unsigned int *)Counters.data();
+  int * counters = (int *)Counters.data();
 
   params.path          = "indexes";
-  params.new_file_size = number_of_indexes*sizeof(unsigned int);
+  params.new_file_size = number_of_indexes*sizeof(int);
   params.flags         = bio::mapped_file::mapmode::readwrite;
   bio::mapped_file_sink Indexes(params);
-  unsigned int * indexes = (unsigned int *)Indexes.data();
+  int * indexes = (int *)Indexes.data();
 
   read_and_insert(disk_tree, counters, indexes, true);
   accumulate_counters(counters);

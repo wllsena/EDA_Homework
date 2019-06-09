@@ -93,7 +93,7 @@ void edits2(const std::string& error, std::unordered_set<std::string>& words2)
     }
 }
 
-string MostFrequent(trie* tree, unordered_set<string>& candidates, const unsigned int *counters, const unsigned int *indexes)
+string MostFrequent(trie* tree, unordered_set<string>& candidates, const int *counters, const int *indexes)
 {
 	std::string answer;
 	size_t max_count = 0;
@@ -115,7 +115,7 @@ string MostFrequent(trie* tree, unordered_set<string>& candidates, const unsigne
 	return answer;
 }
 
-string correct(trie* tree, string error, const unsigned int *counters, const unsigned int *indexes)
+string correct(trie* tree, string error, const int *counters, const int *indexes)
 {
 	string error1 = error;
 	convert(error1);
@@ -134,7 +134,7 @@ string correct(trie* tree, string error, const unsigned int *counters, const uns
 	return error;
 }
 
-string suggestion(trie* tree, vector<string> query, const unsigned int *counters, const unsigned int *indexes) {
+string suggestion(trie* tree, vector<string> query, const int *counters, const int *indexes) {
 	bool not_found = false;
 	string right_query;
 	for (int i = 0; i < query.size(); i++)

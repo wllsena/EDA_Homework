@@ -6,7 +6,7 @@
 
 using namespace std;
 namespace bio = boost::iostreams;
-vector<vector<int> > words; vector<unsigned int> intersect; vector<int> wnull; int size, stance; string word = ""; bool suggest = false;
+vector<vector<int> > words; vector<int> intersect; vector<int> wnull; int size, stance; string word = ""; bool suggest = false;
 auto start = chrono::high_resolution_clock::now();
 auto finish = chrono::high_resolution_clock::now();
 chrono::duration<double> elapsed;
@@ -22,14 +22,14 @@ int main () {
   disk_trie * disk_tree = (disk_trie *)Tries.data();
 
   params.path          = "counters";
-  params.new_file_size = number_of_tries*sizeof(unsigned int);
+  params.new_file_size = number_of_tries*sizeof(int);
   bio::mapped_file_source Counters(params);
-  unsigned int * counters = (unsigned int *)Counters.data();
+  int * counters = (int *)Counters.data();
 
   params.path          = "indexes";
-  params.new_file_size = number_of_indexes*sizeof(unsigned int);
+  params.new_file_size = number_of_indexes*sizeof(int);
   bio::mapped_file_source Indexes(params);
-  unsigned int * indexes = (unsigned int *)Indexes.data();
+  int * indexes = (int *)Indexes.data();
 
   trie *tree = load_trie(disk_tree);
   Tries.close();
@@ -47,7 +47,7 @@ int main () {
 		convert(word);
 		words = word_breaker(word);
 		size = words.size();
-		unsigned int results[size];
+		int results[size];
 		search(tree, wnull);
 
     // SEARCH - START

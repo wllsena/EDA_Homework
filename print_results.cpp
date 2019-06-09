@@ -14,7 +14,7 @@ bool number(string &answer) {
   return true;
 }
 
-void print_results(const vector<unsigned int> &results) {
+void print_results(const vector<int> &results) {
   cout << "... loading articles!"<< endl;
   ifstream sorted_titles("sorted_titles.txt");
   ifstream sorted_texts("sorted_texts.txt");
@@ -37,9 +37,9 @@ void print_results(const vector<unsigned int> &results) {
     cout << boost::replace_all_copy(texts[(stoi(answer)-1)%20], "物", "\n");
 };
 
-vector<unsigned int> intersection(const unsigned int results[], const unsigned int * counters, const unsigned int * indexes, const int &size) {
-  vector<unsigned int> intersect;
-  unsigned int counter;
+vector<int> intersection(const int results[], const int * counters, const int * indexes, const int &size) {
+  vector<int> intersect;
+  int counter;
   bool common;
   int k;
   vector<unsigned int>::iterator iters[size];
