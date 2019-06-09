@@ -104,6 +104,8 @@ string MostFrequent(trie* tree, unordered_set<string>& candidates, const int *co
       found = search(tree, word_breaker(word)[0]);
       if (found)
         length = indexes[counters[found]];
+      else
+        length = 0;
 
       if (length > max_count)
         {

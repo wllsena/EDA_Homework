@@ -4,8 +4,8 @@
 
 using namespace std;
 
-const int number_of_tries = 14165308 + 1400000; //14165307
-const int number_of_indexes = 258933791 + 25000000; //260333791
+const int number_of_tries = 14165319;
+const int number_of_indexes = 260333790 + 26000000;
 
 struct disk_trie {
   int children[36];
