@@ -93,28 +93,7 @@ void edits2(const std::string& error, std::unordered_set<std::string>& words2)
     }
 }
 
-void edits3(const std::string& error, std::unordered_set<std::string>& words3)
-{
-	words3.clear();
-	std::unordered_set<std::string> words1;
-	edits1(error, words1);
-	std::unordered_set<std::string> tmp_words2;
-	std::unordered_set<std::string> tmp_words3;
-	for (const auto& word1 : words1)
-	{
-		edits1(word1, tmp_words2);
-		for (const auto& word2 : tmp_words2)
-		{
-			edits1(word2, tmp_words3);
-			for (const auto& word3 : tmp_words3)
-			{
-				words3.insert(word3);
-			}
-		}
-	}
-}
-
-string MostFrequent(trie* tree, unordered_set<string>& candidates, const int *counters, const int *indexes)
+string MostFrequent(trie* tree, unordered_set<string>& candidates, const unsigned int *counters, const unsigned int *indexes)
 {
 	std::string answer;
 	size_t max_count = 0;
@@ -136,7 +115,7 @@ string MostFrequent(trie* tree, unordered_set<string>& candidates, const int *co
 	return answer;
 }
 
-string correct(trie* tree, string error, const int *counters, const int *indexes)
+string correct(trie* tree, string error, const unsigned int *counters, const unsigned int *indexes)
 {
 	string error1 = error;
 	convert(error1);
@@ -152,14 +131,10 @@ string correct(trie* tree, string error, const int *counters, const int *indexes
 	answer = MostFrequent(tree, candidates, counters, indexes);
 	if (!answer.empty())
 		return answer;
-	edits3(error1, candidates);
-	answer = MostFrequent(tree, candidates, counters, indexes);
-	if (!answer.empty())
-		return answer
 	return error;
 }
 
-string suggestion(trie* tree, vector<string> query, const int *counters, const int *indexes) {
+string suggestion(trie* tree, vector<string> query, const unsigned int *counters, const unsigned int *indexes) {
 	bool not_found = false;
 	string right_query;
 	for (int i = 0; i < query.size(); i++)

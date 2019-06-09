@@ -7,9 +7,7 @@
 
 namespace bio = boost::iostreams;
 
-//const int number_of_pages = 1359146;
-
-void read_and_insert (disk_trie *tree, int *counters, int *indexes, const bool counter_or_index) {
+void read_and_insert (disk_trie *tree, unsigned int *counters, unsigned int *indexes, const bool counter_or_index) {
   // Bruno
 	vector <vector<int> > Line_words;
   vector <vector<int> > old_words;
@@ -18,7 +16,6 @@ void read_and_insert (disk_trie *tree, int *counters, int *indexes, const bool c
 	if (File.is_open()) {
     if (counter_or_index) {
       while (getline(File, line)) {
-        cout << "cout" << endl;
         old_words.clear();
         Line_words = word_breaker(line);
         for (vector<int> word : Line_words) {
@@ -31,7 +28,6 @@ void read_and_insert (disk_trie *tree, int *counters, int *indexes, const bool c
     } else {
       int text_counter = 0;
       while (getline(File, line)) {
-        cout << text_counter << endl;
         old_words.clear();
         Line_words = word_breaker(line);
         for (vector<int> word : Line_words) {
@@ -58,20 +54,20 @@ int main () {
   disk_trie * disk_tree = (disk_trie *)Tries.data();
 
   params.path          = "counters";
-  params.new_file_size = number_of_tries*sizeof(int);
+  params.new_file_size = number_of_tries*sizeof(unsigned int);
   params.flags         = bio::mapped_file::mapmode::readwrite;
   bio::mapped_file_sink Counters(params);
-  int * counters = (int *)Counters.data();
+  unsigned int * counters = (unsigned int *)Counters.data();
 
   params.path          = "indexes";
-  params.new_file_size = number_of_indexes*sizeof(int);
+  params.new_file_size = number_of_indexes*sizeof(unsigned int);
   params.flags         = bio::mapped_file::mapmode::readwrite;
   bio::mapped_file_sink Indexes(params);
-  int * indexes = (int *)Indexes.data();
+  unsigned int * indexes = (unsigned int *)Indexes.data();
 
   read_and_insert(disk_tree, counters, indexes, true);
   accumulate_counters(counters);
-  //read_and_insert(disk_tree, counters, indexes, false);
+  read_and_insert(disk_tree, counters, indexes, false);
 
   Tries.close();
   Counters.close();

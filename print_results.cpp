@@ -14,7 +14,7 @@ bool number(string &answer) {
   return true;
 }
 
-void print_results(const vector<int> &results) {
+void print_results(const vector<unsigned int> &results) {
   ifstream sorted_titles("sorted_titles.txt");
   ifstream sorted_texts("sorted_texts.txt");
   string line_titles, line_texts, answer  = "y";
@@ -36,17 +36,18 @@ void print_results(const vector<int> &results) {
     cout << boost::replace_all_copy(texts[(stoi(answer)-1)%20], "物", "\n");
 };
 
-vector<int> intersection(const int results[], const int * counters, const int * indexes, const int &size) {
-  vector<int> intersect;
+vector<unsigned int> intersection(const unsigned int results[], const unsigned int * counters, const unsigned int * indexes, const int &size) {
+  vector<unsigned int> intersect;
+  unsigned int counter;
   bool common;
-  int k, counter;
-  vector<int>::iterator iters[size];
-  vector<int>::iterator ends[size];
-  vector<int> vectores[size];
+  int k;
+  vector<unsigned int>::iterator iters[size];
+  vector<unsigned int>::iterator ends[size];
+  vector<unsigned int> vectores[size];
   for (int i = 0; i != size; i++) {
     if (results[i] == 0) return intersect;
     counter = counters[results[i]];
-    vector<int> vec(indexes+(counter+1), indexes+(counter+1+indexes[counter]));
+    vector<unsigned int> vec(indexes+(counter+1), indexes+(counter+1+indexes[counter]));
     vectores[i] = vec;
     iters[i] = vectores[i].begin();
     ends[i] = vectores[i].end();
