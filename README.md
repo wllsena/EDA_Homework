@@ -3,7 +3,7 @@
 - É necessários os seguindes modulos de C++(11):  boost/iostreams, iostream, fstream, vector, string e unordered_set.
 
 ## Pré-processamento
-- Obtenha o essencial para executar a engine adicionando a pasta "raw.en" (http://www.cs.upc.edu/~nlp/wikicorpus/raw.en.tgz) ao repositório e executando o script em Shell "pre_processing.sh" ou extraia o conteúdo de https://gvmail-my.sharepoint.com/:u:/g/personal/b37411_fgv_edu_br/EYI-G33pmlZMsxOT0l_-bO4Bykq_QgJg5b1rR581nAJfiQ?e=pEbk2G para repositório.
+- Para obter o essencial para executar a engine extraia o conteúdo de https://gvmail-my.sharepoint.com/:u:/g/personal/b37411_fgv_edu_br/EYI-G33pmlZMsxOT0l_-bO4Bykq_QgJg5b1rR581nAJfiQ?e=pEbk2G para o repositório ou adicione a pasta "raw.en" (http://www.cs.upc.edu/~nlp/wikicorpus/raw.en.tgz) e execute o script Shell "pre_processing.sh".
 - Todo a geração do pré-processamento utiliza os arquivos "files_names.txt", "generators.cpp", "organize_text.cpp", "pre_processing.sh", "sorting_data.py", "text_processing.cpp" e "trie.cpp"
 
 ## Search
