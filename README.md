@@ -1,5 +1,5 @@
 # EDA Homework
-## Modules
+## Library
 - É necessários os seguindes modulos de C++(11):  boost/iostreams, iostream, fstream, vector, string e unordered_set.
 
 ## Pré-processamento
@@ -10,3 +10,7 @@
 - A engine Search necessita dos arquivos "search.cpp", "trie.cpp", "word_suggestor.cpp" e "text_processing.cpp".
 - Compile “search.cpp” (g++ -o search -std=c++11 search.cpp -lboost_iostreams)
 - Execute-o (./search)
+
+## Integrantes
+- William Sena - EMAp/FGV (https://github.com/wnsena)
+- Bruno Almeida - EMAp/FGV (https://github.com/BrunodePauloAlmeida)
