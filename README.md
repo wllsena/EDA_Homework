@@ -1,8 +1,12 @@
 # EDA Homework
-## Pré-processamento
-Obtenha o pré-processamento adicionando a pasta "raw.en" (http://www.cs.upc.edu/~nlp/wikicorpus/raw.en.tgz) ao repositório e executando o script em shell "pre_processing.sh" (https://github.com/wnsena/EDA_Homework/blob/master/pre_processing.sh) ou extraia o conteudo de https://gvmail-my.sharepoint.com/:u:/g/personal/b37411_fgv_edu_br/EYI-G33pmlZMsxOT0l_-bO4Bykq_QgJg5b1rR581nAJfiQ?e=pEbk2G para repositório.
+## Modules
+- É necessários os seguindes modulos de C++(11):  boost/iostreams, iostream, fstream, vector, string e unordered_set.
 
+## Pré-processamento
+- Obtenha o essencial para executar a engine adicionando a pasta "raw.en" (http://www.cs.upc.edu/~nlp/wikicorpus/raw.en.tgz) ao repositório e executando o script em Shell "pre_processing.sh" ou extraia o conteúdo de https://gvmail-my.sharepoint.com/:u:/g/personal/b37411_fgv_edu_br/EYI-G33pmlZMsxOT0l_-bO4Bykq_QgJg5b1rR581nAJfiQ?e=pEbk2G para repositório.
+- Todo a geração do pré-processamento utiliza os arquivos "files_names.txt", "generators.cpp", "organize_text.cpp", "pre_processing.sh", "sorting_data.py", "text_processing.cpp" e "trie.cpp"
 
 ## Search
-- g++ -o search -std=c++11 search.cpp -lboost_iostreams
-- ./search
+- A engine Search necessita dos arquivos "search.cpp", "trie.cpp", "word_suggestor.cpp" e "text_processing.cpp".
+- Compile “search.cpp” (g++ -o search -std=c++11 search.cpp -lboost_iostreams)
+- Execute-o (./search)
