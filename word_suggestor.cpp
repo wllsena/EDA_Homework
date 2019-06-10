@@ -125,13 +125,11 @@ string correct(trie* tree, string error, const int *indexes)
 	std::unordered_set<std::string> candidates;
   error1.pop_back();
 	edits1(error1, candidates);
-  //edits2(error1,candidates2); // added recently
-  //candidates.insert(candidates2.begin(),candidates2.end()); // added recently
   considerable = false;
 	string answer = MostFrequent(tree, candidates, indexes);
 	if (!answer.empty() && considerable)
 		return answer;
-  std::unordered_set<std::string> candidates2; //added recently
+  std::unordered_set<std::string> candidates2;
 	edits2(error1, candidates2);
   candidates.insert(candidates2.begin(), candidates2.end());
 	answer = MostFrequent(tree, candidates, indexes);

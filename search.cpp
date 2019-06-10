@@ -13,11 +13,10 @@ chrono::duration<double> elapsed;
 bio::mapped_file_params params;
 
 int main () {
-  // Part 1
   cout << "... Loading index done!\n";
 
-  start = chrono::high_resolution_clock::now();
   // LOADING - START
+  start = chrono::high_resolution_clock::now();
   params.path          = "tries";
   params.new_file_size = number_of_tries*sizeof(disk_trie);
   bio::mapped_file_source Tries(params);
@@ -30,14 +29,12 @@ int main () {
 
   trie *tree = load_trie(disk_tree);
 
-	for (int i = 0; i != 36; i++) wnull.push_back(i);
+	for (int i = 10; i != 36; i++) wnull.push_back(i);
   finish = chrono::high_resolution_clock::now();
   // LOADING - END
+
   elapsed = finish - start;
-
   cout << "(" << elapsed.count() << " seconds)\n";
-
-  // Part 2
 	while (true) {
     if (!suggest) {
       cout << "Enter your query: ";
@@ -51,14 +48,14 @@ int main () {
 		int results[size];
 		search(tree, wnull);
 
-		start = chrono::high_resolution_clock::now();
     // SEARCH - START
+    start = chrono::high_resolution_clock::now();
 		for (stance = 0; stance != size; stance++)
 			results[stance] = search(tree, words[stance]);
 		finish = chrono::high_resolution_clock::now();
     // SEARCH - END
-		elapsed = finish - start;
 
+		elapsed = finish - start;
     intersect = intersection(results, indexes, size);
     cout << "... About " << intersect.size() << " results (" << elapsed.count() << " seconds or " << 1000000*elapsed.count() << " microseconds)\n";
 

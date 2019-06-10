@@ -12,7 +12,7 @@ vector<string> file_names() {
   };
   return files;
 };
-#include <iostream>
+
 int main () {
   const vector<string> files = file_names();
   bool had_title;
@@ -23,7 +23,7 @@ int main () {
 	vector< vector<int> > line_words;
 	pre_titles.open("unsorted_titles.txt");
 	pre_texts.open("unsorted_texts.txt");
-	pre_words_to_insert.open("words_to_insert.txt"); // 155
+	pre_words_to_insert.open("words_to_insert.txt");
 	for (string file : files)
     {
       ifstream File(file);
