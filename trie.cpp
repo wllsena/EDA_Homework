@@ -1,11 +1,10 @@
 //William
-#include <iostream> // remover
 #include <vector>
 
 using namespace std;
 
-const int number_of_tries = 14165319 + 1400000; // mudar
-const int number_of_indexes = 260333790 + 26000000; // mudar
+const int number_of_tries = 14175000;
+const int number_of_indexes = 260490000;
 
 struct disk_trie_wc { // wc -> with children
   int children[36];
@@ -47,8 +46,6 @@ void generate_tries (disk_trie *tree, const disk_trie_wc *tree_wc) {
     accumulated += (tree_wc[i].counter + 1);
     temp = accumulated; // remover
   };
-  cout << temp << " indexes." << endl; // remover
-  cout << trie_position << " tries." << endl; // remove
 };
 
 int branch_index, position_index, counter_index;
