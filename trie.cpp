@@ -38,13 +38,11 @@ void put_word_and_counter (disk_trie_wc *tree, const vector<int> &word) {
 };
 
 void generate_tries (disk_trie *tree, const disk_trie_wc *tree_wc) {
-  int temp; // remover
-  for(int i = 0, accumulated = 0; i != number_of_tries; i++) { // mudar
+  for(int i = 0, accumulated = 0; i != number_of_tries; i++) {
     tree[i].index = accumulated;
     tree[i].kinship[0] = tree_wc[i].kinship[0];
     tree[i].kinship[1] = tree_wc[i].kinship[1];
     accumulated += (tree_wc[i].counter + 1);
-    temp = accumulated; // remover
   };
 };
 
