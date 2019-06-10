@@ -42,23 +42,23 @@ void edits1(const string& error, unordered_set<string>& wordSet)
 	int len = error.size();
 	int len_alphabet = alphabet.size();
 	//deletes
-	for (int i = 0; i < len; ++i)
+	for (int i = 0; i < len; i++)
     {
       word = error;
       word.erase(i, 1);
       wordSet.insert(word);
     }
 	//transposes
-	for (int i = 0; i < len - 1; ++i)
+	for (int i = 0; i < len - 1; i++)
     {
       word = error;
       std::swap(word[i], word[i+1]);
       wordSet.insert(word);
     }
 	//replaces
-	for (int i = 0; i < len; ++i)
+	for (int i = 0; i < len; i++)
     {
-      for (int j = 0; j < len_alphabet; ++j)
+      for (int j = 0; j < len_alphabet; j++)
         {
           word = error;
           word[i] = alphabet[j];
@@ -66,9 +66,9 @@ void edits1(const string& error, unordered_set<string>& wordSet)
         }
     }
 	//inserts
-	for (int i = 0; i < len + 1; ++i)
+	for (int i = 0; i < len + 1; i++)
     {
-      for (int j = 0; j < len_alphabet; ++j)
+      for (int j = 0; j < len_alphabet; j++)
         {
           word = error;
           word.insert(i, 1, alphabet[j]);
@@ -93,23 +93,26 @@ void edits2(const std::string& error, std::unordered_set<std::string>& words2)
     }
 }
 
+bool considerable = false;
+
 string MostFrequent(trie* tree, unordered_set<string>& candidates, const int *indexes)
 {
 	std::string answer;
 	size_t max_count = 0;
-	int found, length = 0;
+	int found;
 	for (auto word : candidates)
     {
       convert(word);
       found = indexes[search(tree, word_breaker(word)[0])];
 
-      if (length > max_count)
+      if (found > max_count)
         {
           max_count = found;
           word.pop_back();
           answer = word;
         }
     }
+  if (max_count >= 100)    considerable = true;
 	return answer;
 }
 
@@ -120,15 +123,20 @@ string correct(trie* tree, string error, const int *indexes)
 	if (search(tree, word_breaker(error1)[0]))
 		return error;
 	std::unordered_set<std::string> candidates;
-	error1.pop_back();
+  error1.pop_back();
 	edits1(error1, candidates);
+  //edits2(error1,candidates2); // added recently
+  //candidates.insert(candidates2.begin(),candidates2.end()); // added recently
+  considerable = false;
 	string answer = MostFrequent(tree, candidates, indexes);
-	if (!answer.empty())
+	if (!answer.empty() && considerable)
 		return answer;
-	edits2(error1, candidates);
+  std::unordered_set<std::string> candidates2; //added recently
+	edits2(error1, candidates2);
+  candidates.insert(candidates2.begin(), candidates2.end());
 	answer = MostFrequent(tree, candidates, indexes);
 	if (!answer.empty())
-		return answer;
+    return answer;
 	return error;
 }
 

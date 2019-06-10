@@ -1,6 +1,7 @@
 #!/bin/bash
 START=$(date +%s)
 
+mkdir sorted_texts sorted_titles
 g++ -o organize_text -std=c++11 organize_text.cpp
 ./organize_text
 python sorting_data.py
