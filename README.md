@@ -1,6 +1,6 @@
 # EDA Homework
 ## Pré-processamento
-Obtenha o pré-processamento gerando-o adicionando a pasta "raw.en" (http://www.cs.upc.edu/~nlp/wikicorpus/raw.en.tgz) ao repositório e executando o script em shell "pre_processing.sh" (https://github.com/wnsena/EDA_Homework/blob/master/pre_processing.sh) ou copiando o conteudo de https://gvmail-my.sharepoint.com/:f:/g/personal/b37411_fgv_edu_br/EuARsICD9-NGnvATYLzT8agBp8Po7G3I-68Bf--nqTHv1Q?e=9K7Pxd para repositório.
+Obtenha o pré-processamento gerando-o adicionando a pasta "raw.en" (http://www.cs.upc.edu/~nlp/wikicorpus/raw.en.tgz) ao repositório e executando o script em shell "pre_processing.sh" (https://github.com/wnsena/EDA_Homework/blob/master/pre_processing.sh) ou extraia o conteudo de https://gvmail-my.sharepoint.com/:u:/g/personal/b37411_fgv_edu_br/EW2tT0u2XFxKmbsv_fHt2LcBqAqYTjzWEGQPyle1l5W7cw?e=brBjFL para repositório.
 
 
 ## Search
