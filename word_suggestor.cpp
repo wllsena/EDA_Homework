@@ -156,7 +156,7 @@ string suggestion(trie* tree, vector<string> query, const int *counters, const i
           if (word != "*") cout << word << " ";
         }
 
-      cout << "\" (y,n)?" << endl;
+      cout << "\" (y,n)? ";
       getline(cin >> ws, answer);
       if (answer == "y")
         {

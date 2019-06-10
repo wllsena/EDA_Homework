@@ -53,6 +53,7 @@ int main () {
                   title = line.substr(title_begin, title_end - title_begin - 1);
                   pre_titles << title;
                   pre_titles << "\n";
+                  text.append("物---------- " + title + " ----------物物");
                   title.clear();
                   had_title = true;
                 }

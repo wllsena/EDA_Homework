@@ -18,7 +18,7 @@ PTIs.sort(key = lambda x: x[0])
 
 for i in range(136):
     sorted_texts = open("sorted_texts/sorted_texts_{}".format(i),"w+")
-    sorted_titles = open("sorted_titles/sorted_texts_{}".format(i),"w+")
+    sorted_titles = open("sorted_titles/sorted_titles_{}".format(i),"w+")
 
     for t in PTIs[i*10000:i*10000 + 10000]:
         sorted_texts.write(t[1])

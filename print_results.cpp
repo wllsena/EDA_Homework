@@ -15,21 +15,25 @@ bool number(string &answer) {
 }
 
 void print_results(const vector<int> &results) {
-  cout << "... loading articles!"<< endl;
-  ifstream sorted_titles("sorted_titles.txt");
-  ifstream sorted_texts("sorted_texts.txt");
-  string line_titles, line_texts, answer  = "y";
+  string line_title, line_text, answer  = "y";
   string texts[20];
-  for (int i = 0, k = 0; i != results.size() and answer == "y";) {
-    while (results[i] >= k and getline(sorted_titles, line_titles) and getline(sorted_texts, line_texts))
-      k++;
-    cout << "[" << i + 1 << "] " << line_titles << endl;
-    texts[i%20] = "---------- " + line_titles + " ----------\n\n" + line_texts;
-    i++;
-    if (i != results.size() and i != 0 and i % 20 == 0) {
-      cout << "More results? (y, n): ";
-      getline(cin >> ws, answer);
+  int rest, k;
+  for (int i = 0; i != results.size() and answer == "y";) {
+    rest = (int)results[i]/10000;
+    ifstream sorted_titles("sorted_titles/sorted_titles_" + to_string(rest));
+    ifstream sorted_texts("sorted_texts/sorted_texts_" + to_string(rest));
+    for (k = rest*10000; (int)results[i]/10000 == rest and i != results.size() and answer == "y"; i++) {
+      while (results[i] >= k and getline(sorted_titles, line_title) and getline(sorted_texts, line_text))
+        k++;
+      cout << "[" << i + 1 << "] " << line_title << endl;
+      texts[i%20] = line_text;
+      if (i+1 != results.size() and i % 20 == 19) {
+        cout << "More results? (y, n): ";
+        getline(cin >> ws, answer);
+      };
     };
+    sorted_titles.close();
+    sorted_texts.close();
   };
   cout << "Do you want to open any result [n or result number (in the last 20 prints)]? ";
   getline(cin >> ws, answer);
