@@ -14,8 +14,10 @@ bio::mapped_file_params params;
 
 int main () {
   // Part 1
-  cout << "... Loading index done!" << endl;
+  cout << "... Loading index done!\n";
 
+  start = chrono::high_resolution_clock::now();
+  // LOADING - START
   params.path          = "tries";
   params.new_file_size = number_of_tries*sizeof(disk_trie);
   bio::mapped_file_source Tries(params);
@@ -29,6 +31,11 @@ int main () {
   trie *tree = load_trie(disk_tree);
 
 	for (int i = 0; i != 36; i++) wnull.push_back(i);
+  finish = chrono::high_resolution_clock::now();
+  // LOADING - END
+  elapsed = finish - start;
+
+  cout << "(" << elapsed.count() << " seconds)\n";
 
   // Part 2
 	while (true) {
