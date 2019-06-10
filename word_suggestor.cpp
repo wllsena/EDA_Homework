@@ -93,7 +93,7 @@ void edits2(const std::string& error, std::unordered_set<std::string>& words2)
     }
 }
 
-string MostFrequent(trie* tree, unordered_set<string>& candidates, const int *counters, const int *indexes)
+string MostFrequent(trie* tree, unordered_set<string>& candidates, const int *indexes)
 {
 	std::string answer;
 	size_t max_count = 0;
@@ -101,11 +101,7 @@ string MostFrequent(trie* tree, unordered_set<string>& candidates, const int *co
 	for (auto word : candidates)
     {
       convert(word);
-      found = search(tree, word_breaker(word)[0]);
-      if (found)
-        length = indexes[counters[found]];
-      else
-        length = 0;
+      found = indexes[search(tree, word_breaker(word)[0])];
 
       if (length > max_count)
         {
@@ -117,7 +113,7 @@ string MostFrequent(trie* tree, unordered_set<string>& candidates, const int *co
 	return answer;
 }
 
-string correct(trie* tree, string error, const int *counters, const int *indexes)
+string correct(trie* tree, string error, const int *indexes)
 {
 	string error1 = error;
 	convert(error1);
@@ -126,22 +122,22 @@ string correct(trie* tree, string error, const int *counters, const int *indexes
 	std::unordered_set<std::string> candidates;
 	error1.pop_back();
 	edits1(error1, candidates);
-	string answer = MostFrequent(tree, candidates, counters, indexes);
+	string answer = MostFrequent(tree, candidates, indexes);
 	if (!answer.empty())
 		return answer;
 	edits2(error1, candidates);
-	answer = MostFrequent(tree, candidates, counters, indexes);
+	answer = MostFrequent(tree, candidates, indexes);
 	if (!answer.empty())
 		return answer;
 	return error;
 }
 
-string suggestion(trie* tree, vector<string> query, const int *counters, const int *indexes) {
+string suggestion(trie* tree, vector<string> query, const int *indexes) {
 	bool not_found = false;
 	string right_query;
 	for (int i = 0; i < query.size(); i++)
     {
-      right_query = correct(tree, query[i], counters, indexes);
+      right_query = correct(tree, query[i], indexes);
       if (right_query != query[i]) {
         not_found = true;
         query[i] = right_query;

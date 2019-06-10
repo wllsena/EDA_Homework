@@ -41,18 +41,16 @@ void print_results(const vector<int> &results) {
     cout << boost::replace_all_copy(texts[(stoi(answer)-1)%20], "物", "\n");
 };
 
-vector<int> intersection(const int results[], const int * counters, const int * indexes, const int &size) {
+vector<int> intersection(const int results[], const int * indexes, const int &size) {
   vector<int> intersect;
-  int counter;
   bool common;
   int k;
-  vector<unsigned int>::iterator iters[size];
-  vector<unsigned int>::iterator ends[size];
-  vector<unsigned int> vectores[size];
+  vector<int>::iterator iters[size];
+  vector<int>::iterator ends[size];
+  vector<int> vectores[size];
   for (int i = 0; i != size; i++) {
     if (results[i] == 0) return intersect;
-    counter = counters[results[i]];
-    vector<unsigned int> vec(indexes+(counter+1), indexes+(counter+1+indexes[counter]));
+    vector<int> vec(indexes+(results[i]+1), indexes+(results[i]+1+indexes[results[i]]));
     vectores[i] = vec;
     iters[i] = vectores[i].begin();
     ends[i] = vectores[i].end();

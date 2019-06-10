@@ -21,18 +21,12 @@ int main () {
   bio::mapped_file_source Tries(params);
   disk_trie * disk_tree = (disk_trie *)Tries.data();
 
-  params.path          = "counters";
-  params.new_file_size = number_of_tries*sizeof(int);
-  bio::mapped_file_source Counters(params);
-  int * counters = (int *)Counters.data();
-
   params.path          = "indexes";
   params.new_file_size = number_of_indexes*sizeof(int);
   bio::mapped_file_source Indexes(params);
   int * indexes = (int *)Indexes.data();
 
   trie *tree = load_trie(disk_tree);
-  Tries.close();
 
 	for (int i = 0; i != 36; i++) wnull.push_back(i);
 
@@ -58,19 +52,19 @@ int main () {
 		elapsed = finish - start;
     // SEARCH - END
 
-    intersect = intersection(results, counters, indexes, size);
+    intersect = intersection(results, indexes, size);
     cout << "... About " << intersect.size() << " results (" << elapsed.count() << " seconds or " << 1000000*elapsed.count() << " microseconds)\n";
 
     if (intersect.size()) {
       print_results(intersect);
       suggest = false;
     } else if (suggest) {
-      word = suggestion(tree, word_breaker2(word), counters, indexes);
+      word = suggestion(tree, word_breaker2(word), indexes);
       suggest = word != "";
     };
   };
 
-  Counters.close();
+  Tries.close();
   Indexes.close();
   return 0;
 };
